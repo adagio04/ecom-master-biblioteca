@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f1115">
+<title>ECOM MASTER · Biblioteca de Mentorías</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ECOM MASTER">
+<style>
+  :root{
+    --bg:#0f1115; --bg-2:#161a21; --card:#1a1f28; --card-2:#20262f;
+    --line:#2a313c; --line-soft:#232932;
+    --txt:#e8ecf2; --txt-2:#a5b0bf; --txt-3:#6b7686;
+    --accent:#ff5c8a; --accent-2:#7c5cff; --gold:#f2b04a;
+    --mentor:#ff5c8a; --socio:#4ac6f2; --ok:#4ad991;
+    --radius:16px; --radius-sm:10px;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+    --maxw:1180px;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Inter",sans-serif;
+  }
+  html[data-theme="light"]{
+    --bg:#f4f6fa; --bg-2:#ffffff; --card:#ffffff; --card-2:#f7f9fc;
+    --line:#e3e8ef; --line-soft:#eef2f7;
+    --txt:#1a2230; --txt-2:#4c586a; --txt-3:#8a95a6;
+    --shadow:0 10px 30px rgba(20,30,50,.08);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:var(--sans); background:var(--bg); color:var(--txt);
+    -webkit-font-smoothing:antialiased; line-height:1.55;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  a{color:inherit}
+  ::selection{background:var(--accent);color:#fff}
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:50;
+    background:color-mix(in srgb,var(--bg) 88%, transparent);
+    backdrop-filter:saturate(160%) blur(12px);
+    border-bottom:1px solid var(--line-soft);
+    padding:calc(env(safe-area-inset-top) + 10px) 18px 10px;
+  }
+  .topbar-inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:14px}
+  .brand{display:flex;align-items:center;gap:11px;flex-shrink:0;cursor:pointer;user-select:none}
+  .logo{
+    width:38px;height:38px;border-radius:11px;flex-shrink:0;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    display:grid;place-items:center;font-weight:800;color:#fff;font-size:15px;
+    box-shadow:0 6px 16px rgba(124,92,255,.35);letter-spacing:-.5px;
+  }
+  .brand h1{font-size:15px;margin:0;font-weight:800;letter-spacing:-.2px;line-height:1.1}
+  .brand span{display:block;font-size:11px;color:var(--txt-3);font-weight:600;letter-spacing:.3px}
+  .search{
+    flex:1;display:flex;align-items:center;gap:9px;
+    background:var(--card);border:1px solid var(--line);
+    border-radius:12px;padding:9px 13px;max-width:520px;margin:0 auto;
+  }
+  .search:focus-within{border-color:var(--accent-2);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent-2) 22%,transparent)}
+  .search svg{width:17px;height:17px;color:var(--txt-3);flex-shrink:0}
+  .search input{
+    border:none;background:none;outline:none;color:var(--txt);
+    font-size:14.5px;width:100%;font-family:inherit;
+  }
+  .search input::placeholder{color:var(--txt-3)}
+  .search kbd{
+    font-size:10.5px;color:var(--txt-3);border:1px solid var(--line);
+    border-radius:5px;padding:1px 5px;font-family:inherit;flex-shrink:0;
+  }
+  .icon-btn{
+    width:40px;height:40px;flex-shrink:0;border-radius:11px;cursor:pointer;
+    background:var(--card);border:1px solid var(--line);color:var(--txt-2);
+    display:grid;place-items:center;transition:.15s;
+  }
+  .icon-btn:hover{color:var(--txt);border-color:var(--txt-3)}
+  .icon-btn svg{width:18px;height:18px}
+
+  /* ---------- Tabs ---------- */
+  .tabs{
+    max-width:var(--maxw);margin:0 auto;padding:0 18px;
+    display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;
+  }
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{
+    flex-shrink:0;padding:8px 15px;margin-top:11px;border-radius:10px;cursor:pointer;
+    font-size:13.5px;font-weight:650;color:var(--txt-2);border:1px solid transparent;
+    display:flex;align-items:center;gap:7px;white-space:nowrap;transition:.15s;
+  }
+  .tab:hover{background:var(--card)}
+  .tab.active{background:var(--card);color:var(--txt);border-color:var(--line)}
+  .tab .cnt{font-size:11px;color:var(--txt-3);font-weight:700}
+  .tab.active .cnt{color:var(--accent)}
+
+  /* ---------- Layout ---------- */
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 60px}
+  .intro{color:var(--txt-2);font-size:14px;margin:2px 0 20px;max-width:760px}
+  .intro b{color:var(--txt)}
+
+  /* filter chips */
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;align-items:center}
+  .chip{
+    padding:6px 13px;border-radius:20px;cursor:pointer;font-size:12.5px;font-weight:650;
+    border:1px solid var(--line);color:var(--txt-2);background:var(--card);transition:.15s;
+    display:inline-flex;align-items:center;gap:7px;
+  }
+  .chip:hover{color:var(--txt)}
+  .chip.on{color:#fff;border-color:transparent}
+  .chip.on.all{background:linear-gradient(135deg,var(--accent),var(--accent-2))}
+  .chip.on.mentor{background:var(--mentor)}
+  .chip.on.socio{background:var(--socio);color:#04222e}
+  .dot{width:8px;height:8px;border-radius:50%}
+  .dot.mentor{background:var(--mentor)} .dot.socio{background:var(--socio)}
+
+  /* section headers */
+  .sec-head{display:flex;align-items:center;gap:11px;margin:30px 0 15px}
+  .sec-head:first-of-type{margin-top:6px}
+  .sec-head .k{
+    font-size:12px;font-weight:800;width:30px;height:30px;border-radius:9px;
+    display:grid;place-items:center;flex-shrink:0;color:#fff;
+  }
+  .sec-head h2{font-size:17px;margin:0;font-weight:800;letter-spacing:-.3px}
+  .sec-head .sub{font-size:12.5px;color:var(--txt-3);font-weight:600}
+
+  /* grid + cards */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:15px}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 18px 16px;position:relative;overflow:hidden;transition:.18s;
+  }
+  .card:hover{border-color:var(--txt-3);transform:translateY(-2px);box-shadow:var(--shadow)}
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--src-color,var(--accent))}
+  .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:9px}
+  .card h3{font-size:15px;margin:0;font-weight:750;letter-spacing:-.2px;line-height:1.35}
+  .card .num{
+    font-size:11px;font-weight:800;color:var(--txt-3);flex-shrink:0;
+    background:var(--card-2);border:1px solid var(--line-soft);border-radius:7px;padding:2px 7px;
+  }
+  .card ul{margin:9px 0 0;padding-left:18px}
+  .card li{font-size:13.3px;color:var(--txt-2);margin-bottom:7px}
+  .card li:last-child{margin-bottom:0}
+  .card li b{color:var(--txt);font-weight:700}
+  .card p.lead{font-size:13.3px;color:var(--txt-2);margin:6px 0 0}
+  .tag-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:13px}
+  .tag{
+    font-size:11px;font-weight:700;padding:3px 9px;border-radius:7px;
+    background:var(--card-2);color:var(--txt-3);border:1px solid var(--line-soft);
+  }
+  .tag.evo{color:var(--gold);border-color:color-mix(in srgb,var(--gold) 30%,transparent)}
+  .tag.warn{color:var(--socio);border-color:color-mix(in srgb,var(--socio) 30%,transparent)}
+  .tag.star{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 30%,transparent)}
+  .note{
+    margin-top:12px;padding:10px 12px;border-radius:10px;font-size:12.5px;
+    background:color-mix(in srgb,var(--gold) 9%,var(--card));
+    border:1px solid color-mix(in srgb,var(--gold) 26%,transparent);color:var(--txt-2);
+  }
+  .note.warn{background:color-mix(in srgb,var(--socio) 9%,var(--card));border-color:color-mix(in srgb,var(--socio) 26%,transparent)}
+  .note b{color:var(--txt)}
+
+  /* calls view */
+  .call-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px;transition:.18s;position:relative;overflow:hidden;
+  }
+  .call-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--src-color)}
+  .call-card:hover{border-color:var(--txt-3);box-shadow:var(--shadow)}
+  .call-meta{display:flex;align-items:center;gap:9px;margin-bottom:10px;flex-wrap:wrap}
+  .badge{font-size:11px;font-weight:800;padding:3px 9px;border-radius:7px;color:#fff}
+  .badge.mentor{background:var(--mentor)} .badge.socio{background:var(--socio);color:#04222e}
+  .date{font-size:12.5px;color:var(--txt-3);font-weight:700;font-variant-numeric:tabular-nums}
+  .call-card h3{font-size:15.5px;margin:0 0 8px;font-weight:750}
+  .call-card p{font-size:13px;color:var(--txt-2);margin:0 0 13px}
+  .call-links{display:flex;gap:8px;flex-wrap:wrap}
+  .lnk{
+    font-size:12.5px;font-weight:700;padding:7px 13px;border-radius:9px;text-decoration:none;
+    border:1px solid var(--line);color:var(--txt);display:inline-flex;align-items:center;gap:6px;transition:.15s;
+  }
+  .lnk:hover{border-color:var(--accent-2);color:var(--txt)}
+  .lnk svg{width:14px;height:14px}
+  .lnk.dis{opacity:.5;pointer-events:none}
+
+  /* action view */
+  .act-col-wrap{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+  .act-col h3{font-size:14.5px;margin:0 0 12px;display:flex;align-items:center;gap:8px}
+  .act-item{
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:13px 15px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start;
+  }
+  .act-item .n{
+    flex-shrink:0;width:24px;height:24px;border-radius:7px;background:var(--card-2);
+    border:1px solid var(--line-soft);display:grid;place-items:center;
+    font-size:11.5px;font-weight:800;color:var(--accent);
+  }
+  .act-item p{margin:0;font-size:13.3px;color:var(--txt-2)}
+  .act-item p b{color:var(--txt)}
+
+  /* empty */
+  .empty{text-align:center;padding:60px 20px;color:var(--txt-3)}
+  .empty svg{width:44px;height:44px;opacity:.4;margin-bottom:12px}
+
+  .foot{margin-top:44px;padding-top:22px;border-top:1px solid var(--line-soft);
+    color:var(--txt-3);font-size:12px;text-align:center;line-height:1.7}
+
+  mark{background:color-mix(in srgb,var(--gold) 40%,transparent);color:var(--txt);border-radius:3px;padding:0 2px}
+
+  @media(max-width:720px){
+    .brand span{display:none}
+    .search kbd{display:none}
+    .act-col-wrap{grid-template-columns:1fr}
+    .grid{grid-template-columns:1fr}
+    .wrap{padding:16px 14px 60px}
+    .topbar{padding-left:14px;padding-right:14px}
+  }
+  @media(max-width:480px){ .brand h1{display:none} }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand" onclick="go('temas')">
+      <div class="logo">EM</div>
+      <div><h1>ECOM MASTER</h1><span>Biblioteca de Mentorías</span></div>
+    </div>
+    <label class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="q" type="search" placeholder="Buscar en toda la biblioteca…" autocomplete="off">
+      <kbd>/</kbd>
+    </label>
+    <button class="icon-btn" id="theme" title="Cambiar tema" onclick="toggleTheme()">
+      <svg id="theme-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+
+<main class="wrap" id="view"></main>
+
+<script>
+/* ============================================================
+   DATA — síntesis fiel de los dos documentos del proyecto
+   src: "mentor" (Ger) | "socio" (Gonzalo)
+   ============================================================ */
+
+const SECTIONS = [
+  // ---------- MENTORÍA (Ger) ----------
+  { id:"A", src:"mentor", color:"var(--mentor)", title:"Testeo y conversión",
+    cards:[
+      { n:"1", title:"Leer las métricas de testeo (interés ≠ venta)", tags:["Aug 16"], html:`
+        <p class="lead">Error mental a evitar: leer «buenas métricas sin venta» como fracaso. Carritos, intentos de pago y buen CPM <b>son data y validación</b> de que vas por buen camino aunque no caiga la venta.</p>
+        <ul>
+          <li><b>Caso vestido mujer:</b> 11 add-to-cart, 4 intentos de pago, 0 ventas, buen CPM. Diagnóstico por descarte.</li>
+          <li><b>Precio — descartado:</b> bajar 5 € el PVP no desbloqueó la venta (fue algo mejor caro).</li>
+          <li><b>Checkout — descartado:</b> una campaña de hombre en la misma tienda sí convertía.</li>
+          <li><b>Público:</b> mujer = muy impulsiva (mucho carrito) pero convierte peor; hombre = menos interés pero convierte más fuerte. No es fallo, es la naturaleza del público.</li>
+          <li><b>Qué hacer:</b> auditar oferta/página desde el móvil, probar una <b>variante</b> del producto (largo/tirantes), diversificar en paralelo; si en 1–2 semanas no reacciona → validación para pausar.</li>
+        </ul>` },
+      { n:"2", title:"Optimización de oferta y carrito", tags:["Aug 16","Mayo 2025"], html:`
+        <ul>
+          <li><b>Auditar tu web desde el móvil</b> como un cliente: simplificar, quitar lo lioso, urgencia real pero no agresiva. De lo que más le ha funcionado a Ger.</li>
+          <li><b>Palancas de conversión final:</b> subir el % de descuento y testear; meter urgencia en el carrito (countdown, stock limitado).</li>
+          <li><b>Regla de las 48 h:</b> tiempo mínimo para juzgar cualquier cambio o test. El día 1 puede estar sesgado; <b>el día 2 es con el que firmas</b>.</li>
+        </ul>` },
+      { n:"3", title:"Cadencia y diversificación de testeo", tags:["Aug 16"], evo:true, html:`
+        <ul>
+          <li><b>No ir «a saco»:</b> máximo 3–4 testeos/día. Repartir durante los días, vaya bien o mal.</li>
+          <li><b>Por qué:</b> Shopify Payments <b>retiene pagos</b> si escalas facturación muy rápido → te ahogas de cash flow y packing antes de cobrar. Todo necesita asentamiento.</li>
+          <li><b>Diversificar al principio:</b> 50% colección / 50% producto; y dentro, 50% hombre / 50% mujer. «No te quites las balas.»</li>
+          <li><b>Comparar campañas día a día:</b> todas caen → día flojo; todas suben → pico (vie/sáb/dom); una aguanta y otra baja → ahí metes fuego.</li>
+        </ul>
+        <div class="note"><b>🔄 Evolución.</b> Mayo 2025 empujaba más volumen y velocidad; Agosto 2026 matiza: volumen sí, pero <b>repartido y sostenible</b> por Shopify Payments y cash flow, no todo de golpe.</div>` },
+      { n:"4", title:"Segmentación", tags:["Aug 16"], html:`
+        <ul>
+          <li><b>Por defecto: ABIERTA.</b> «Meta sabe mejor que yo a quién entregárselo.» Recopila la data igual.</li>
+          <li><b>Cerrada</b> puede dar CPCs más bajos pero hoy no es determinante (el año pasado importaba más).</li>
+          <li><b>Regla de oro:</b> si te va bien, no toques lo que funciona.</li>
+          <li><b>Estrategia de 30 €/día:</b> testear rápido y barato tipos de creativo, ángulos winner o qué producto funciona, sin quemar pasta (segmentación cerrada opcional aquí).</li>
+        </ul>` },
+    ]},
+  { id:"B", src:"mentor", color:"var(--mentor)", title:"Estructura, escalado y píxel",
+    cards:[
+      { n:"5", title:"De colección a CBO individual", tags:["Mayo 2025"], html:`
+        <ul>
+          <li><b>Insight clave:</b> los productos que más venden dentro de tu colección de anuncios → sacarlos a <b>CBOs individuales</b>. Obligatorio, sin esperar.</li>
+          <li>Palanca principal de crecimiento horizontal: varias colecciones + varios CBOs individuales a la vez. Con el píxel entrenado, no hay problema en meter más carga.</li>
+        </ul>` },
+      { n:"6", title:"Escalado", tags:["Mayo 2025","Aug 16"], evo:true, html:`
+        <p class="lead"><b>Base (mayo 2025):</b></p>
+        <ul>
+          <li>Margen 20–30% → subir presupuesto un <b>20%</b>.</li>
+          <li>Campaña fatigada → subir <b>x3 o x5</b> (aggressive burn).</li>
+          <li><b>ROAS ≥ 2.5</b> respondiendo bien → escalar cada 24 h. Ventana óptima <b>8–12 AM</b>.</li>
+        </ul>
+        <p class="lead"><b>Refinamiento (agosto 2026):</b></p>
+        <ul>
+          <li><b>Saltos grandes y decisivos:</b> de 30 € → duplicar mínimo (60 €) o 100 €. Más presupuesto = más aprendizaje para Meta, menos fluctuación.</li>
+          <li>Las campañas de 30 € son inestables al escalar (cambiar 20 € es un salto proporcional enorme).</li>
+          <li><b>El dinero está en el escalado:</b> mismo ROAS + más presupuesto = mucho más beneficio absoluto. Break-even ~1,3; buena campaña ~2,3. Condición: verificar que <b>aguanta el ROAS</b>; si no, dejar que se optimice.</li>
+        </ul>
+        <div class="note"><b>🔄 Evolución.</b> La regla del 20%/24–48 h sirve para <b>ajuste fino</b> de campañas asentadas; para arrancar una winner joven, hoy prefiere el <b>salto grande de golpe</b>.</div>` },
+      { n:"7", title:"Píxel y optimización", tags:["Mayo 2025","Aug 16"], html:`
+        <ul>
+          <li><b>50 conversiones</b> para tener el píxel optimizado — por píxel, no por campaña.</li>
+          <li>Píxel entrenado = ante peticiones similares ya sabe a quién apuntar; subnichos en paralelo sin problema.</li>
+          <li>Mientras el píxel <b>registre ventas</b> (hombre, mujer o 50/50) se está entrenando; no te preocupes por «ensuciarlo» al diversificar.</li>
+        </ul>` },
+      { n:"8", title:"Días de la semana y ventana horaria", tags:["Aug 16","Mayo 2025"], html:`
+        <ul>
+          <li><b>Lunes (Europa):</b> tiende a bajar. No es regla fija — testéalo con tu histórico.</li>
+          <li><b>Martes:</b> escalar sin miedo, suele ser día de facturación.</li>
+          <li><b>Escalar el lunes = alto riesgo/alta recompensa:</b> «cuando la gente va a la izquierda, yo voy a la derecha». Martes-miércoles ya vas por delante.</li>
+          <li>Toda la tracción entre semana se refleja en el <b>fin de semana</b> (los findes pegan el bombazo). Clave para Q4.</li>
+          <li><b>Ventana intradía para escalar: 8–12 AM.</b></li>
+        </ul>` },
+      { n:"9", title:"Flow post-compra y chargebacks", tags:["Mayo 2025"], html:`
+        <ul>
+          <li>Ajustar el mensaje post-compra de <b>7 días a 3–5 días</b>. A los 7 el cliente ya olvidó el pedido y el mensaje genera desconfianza; a 3–5 aún lo recuerda y el «todo va bien» <b>reduce disputas</b>.</li>
+        </ul>` },
+      { n:"10", title:"Volumen: de 4 a 5 cifras", tags:["Mayo 2025"], evo:true, html:`
+        <ul>
+          <li>La fórmula de 4 → 5 cifras es <b>VOLUMEN</b>: más colecciones en paralelo, más testeos, más escalado horizontal, más creativos/ángulos/ofertas. Velocidad + volumen diferencian.</li>
+        </ul>
+        <div class="note"><b>🔄 Evolución.</b> Hoy ese volumen se ejecuta <b>repartido y sostenible</b> por cash flow (ver §3), no todo de golpe.</div>` },
+    ]},
+  { id:"C", src:"mentor", color:"var(--mentor)", title:"Búsqueda de producto y competencia",
+    cards:[
+      { n:"11", title:"Winning Hunter (ingeniería inversa)", tags:["Aug 16"], html:`
+        <p class="lead">No hay configuración mágica de filtros; se suman por categorías. Setup para moda:</p>
+        <ul>
+          <li><b>Technologies = Shopify</b> (filtra dropshipping).</li>
+          <li><b>Themes moda: Impulse, Horizon.</b> Prime/Rhyme NO es moda (one-product/tech).</li>
+          <li><b>Country</b> para acotar mercado; <b>Collection Page</b> como tipo de página (moda la usa mucho; escala más rápido por más data).</li>
+          <li><b>Ignorar impresiones/alcance:</b> gasto bajo no es negativo (puede estar testeando).</li>
+          <li><b>Ir al grano con el Score</b> (6.500, 15.000 = facturan a lo grande → validados).</li>
+          <li><b>Lo más valioso:</b> tienda winner → su biblioteca de anuncios → ver qué le mete más pasta. «Tirar del hilo.»</li>
+          <li>Mito del «calentar cuenta» con 1–2 $/día: no existe; suele ser creativos por debajo en una CBO winner.</li>
+        </ul>` },
+      { n:"12", title:"Productos winner y variantes", tags:["Aug 16","Jun 14"], html:`
+        <ul>
+          <li><b>«El producto ganador no existe.»</b> Lo que existe es tu conocimiento y tu lógica.</li>
+          <li>Las <b>variantes de un winner</b> suelen ser winners (largo/corto, otros colores).</li>
+          <li><b>Relanzar winners de temporadas pasadas:</b> nadie se acuerda de testearlos → baja competencia. (Pantalones cortos hombre: ~30.000 € el año pasado en agosto.)</li>
+          <li>Dentro de tu subnicho, buscar tanto lo <b>trending</b> como lo <b>tradicional</b>.</li>
+        </ul>` },
+      { n:"13", title:"Catálogo del proveedor como fuente de winners", tags:["Aug 16"], html:`
+        <ul>
+          <li><b>Por qué vale:</b> el proveedor tiene más data que tú (fábricas + muchos clientes) → su catálogo son productos que saben que se venden.</li>
+          <li><b>Ventajas:</b> confirmas stock antes de testear, todos los colores, tabla de tallas directa, sabes el coste → margen sin mirar competencia.</li>
+          <li><b>Margen ejemplo:</b> coste ~10–11 € → PVP 30–35 € → margen ~30 € (conservador).</li>
+          <li><b>Acceso:</b> panel → Product Catalog o web pública. Si bugea, desloguear/loguear; si persiste, WhatsApp en inglés.</li>
+        </ul>` },
+      { n:"14", title:"Competidores que se ocultan", tags:["Mayo 2025"], html:`
+        <ul>
+          <li><b>Táctica:</b> Fan Page con nombre distinto al de la tienda, y nombre en Ad Library distinto al dominio, para que no los encuentres por marca.</li>
+          <li><b>Contra-táctica:</b> en WinningHunter / Ad Library buscar por <b>patrones de copy y creativo</b>, no solo por nombre de marca.</li>
+        </ul>` },
+    ]},
+  { id:"D", src:"mentor", color:"var(--mentor)", title:"Mercados y expansión",
+    cards:[
+      { n:"15", title:"Mapa de mercados", tags:["Jun 14","Aug 16"], html:`
+        <ul>
+          <li><b>Italia:</b> en verano muy impulsivo. Con España, mercados base.</li>
+          <li><b>Grecia:</b> compradores parecidos a Italia y muy pocos competidores → interesante incluso para pivotar.</li>
+          <li><b>Polonia:</b> también buen mercado.</li>
+          <li><b>Francia:</b> más conservador, «da guerra» → necesita más enfoque en copys.</li>
+          <li><b>Singapur / Japón:</b> envíos muy rápidos (ventaja logística).</li>
+          <li><b>Fuera de Europa:</b> EE.UU. (bueno con cashflow), Australia, UK — válidos con buen análisis de competencia.</li>
+        </ul>` },
+      { n:"16", title:"Configuración de cuenta: zona horaria", tags:["Aug 16"], html:`
+        <ul>
+          <li>Al escalar «a las 12», la zona horaria de la cuenta debe coincidir con <b>donde está la mayoría de la población</b> del mercado.</li>
+          <li>Elegir el GMT/UTC más céntrico/poblado (importa el GMT, no la ciudad). EE.UU.: ~Los Ángeles / GMT-8. Australia: por investigar.</li>
+          <li><b>Método:</b> preguntar a Claude/ChatGPT qué zona alberga más población, sin tomar la primera respuesta a ciegas.</li>
+        </ul>` },
+      { n:"17", title:"Benchmark de CPC por ingeniería inversa", tags:["Aug 16"], html:`
+        <ul>
+          <li>Calcular el CPC de un competidor rentable desde su anuncio (impresiones + gasto; verificar la fórmula). Da un indicio del CPC del mercado.</li>
+          <li><b>Baremo:</b> CPC por encima de 1 €–1,50 € tiende a ser alto en testeo. En Q4 suben. Un ad excelente puede tener CPC muy bajo porque Meta lo premia.</li>
+        </ul>` },
+      { n:"18", title:"Arbitraje estacional — la jugada de Australia", tags:["Aug 16"], star:true, html:`
+        <p class="lead">El bloque más directamente aplicable a Adam, validado con fuerza por Ger como ejemplo de «visión».</p>
+        <ul>
+          <li><b>Situación:</b> producto de verano europeo (familia short / prenda «abierta») que iba bien pero sin momentum por entrar tarde.</li>
+          <li><b>Estrategia (arbitraje de hemisferio):</b> moverlo a <b>Australia</b> (hemisferio sur, estaciones invertidas → arranca primavera/verano). Así sacó Ger su primera tienda ganadora («rotar el globo»).</li>
+          <li><b>Cómo entrar:</b> nichado pero no cerrado el primer día; general al inicio para ver cómo reacciona el píxel; si en 1–2 semanas no reacciona → abrir el abanico.</li>
+          <li><b>Producto verano europeo:</b> relanzarlo el año que viene empezando en mayo.</li>
+          <li><b>Principio:</b> la tendencia cambia sí o sí; entender la ventana y <b>transicionar antes que nadie</b> (como Zara adelantando temporadas).</li>
+        </ul>` },
+    ]},
+  { id:"E", src:"mentor", color:"var(--mentor)", title:"Operación, equipo y marca",
+    cards:[
+      { n:"19", title:"Equipo y producción de creativos", tags:["Mayo 2025"], html:`
+        <ul>
+          <li>Para sostener el volumen de creativos, incorporar un <b>editor de vídeo/creativo («filmino»)</b> a 3–3,5 USD/h.</li>
+        </ul>` },
+      { n:"20", title:"Instagram de marca", tags:["Mayo 2025"], html:`
+        <ul>
+          <li>Construir un <b>Instagram sólido y profesional</b>: activo de marca a largo plazo (no solo canal de ads), aumenta la confianza social y <b>reduce el CPC efectivo</b>.</li>
+        </ul>` },
+    ]},
+  { id:"F", src:"mentor", color:"var(--mentor)", title:"Mindset y principios transversales",
+    cards:[
+      { n:"F", title:"El núcleo de la formación «Vision»", tags:["Aug 16"], html:`
+        <ul>
+          <li><b>Decisiones por datos, no por emociones.</b> Nunca una gran decisión enfadado o en un día malo.</li>
+          <li><b>El mercado es el mejor mentor:</b> tu validación (tu cuenta, tu mercado, tu tienda) manda sobre lo que él diga.</li>
+          <li><b>El objetivo real no son las ventas,</b> es el sistema/habilidad de leer el mercado — replicable y nadie te lo quita.</li>
+          <li><b>Baja barrera de entrada = la ventaja es la visión:</b> gana quien ve la oportunidad antes y mejor.</li>
+          <li><b>Paciencia y constancia:</b> un producto no pasa de 50 € a 1.000 € en un día. Se descubre «a pico y pala».</li>
+          <li><b>Teoría + práctica</b> (analogía autoescuela): el negocio es 100% práctico.</li>
+          <li>Los problemas son bendiciones; no compararse; Q4 arranca en septiembre.</li>
+        </ul>` },
+    ]},
+
+  // ---------- SOCIOS (Gonzalo) ----------
+  { id:"S1", src:"socio", color:"var(--socio)", title:"Estrategia de testeo ABO → ACBO",
+    cards:[
+      { n:"1", title:"Testeo en ABO, escalado en ACBO", tags:["Aug 17"], star:true, warn:true, html:`
+        <p class="lead">El aprendizaje central y el que más se aparta de lo trabajado. La escuela de Gonzalo <b>testea siempre en ABO</b> y solo lleva a <b>ACBO</b> lo ya validado, para escalar.</p>
+        <ul>
+          <li><b>Testeo en ABO siempre:</b> presupuesto fijo a nivel de conjunto, no de campaña. «Todo el rato» ABO.</li>
+          <li><b>Conjuntos separados por formato:</b> uno para vídeos, otro para imágenes. Nunca mezclar.</li>
+          <li><b>Pocos anuncios:</b> máx. 3 por conjunto, mejor menos.</li>
+          <li><b>No tocar cada día:</b> dejar correr y quedarte con lo que funciona.</li>
+          <li><b>Graduar winners a ACBO:</b> tras unos días validado, lo sacas a una ACBO y la escalas fuerte. (Si funcionan 2 imágenes + 1 vídeo → ACBO con esas 3.)</li>
+          <li><b>La ACBO no se testea dentro:</b> todo lo que entra ya está filtrado desde la ABO. ABO = laboratorio; ACBO = fábrica de escalar.</li>
+          <li><b>Ciclo continuo:</b> abres nuevos ABO para creativos nuevos; lo que no funciona se descarta; lo que funciona sube a la ACBO.</li>
+        </ul>
+        <div class="note warn"><b>⚠️ Contraste con Ger:</b> la mentoría testea y escala <b>dentro de CBO</b> (incl. el híbrido de Adam). Gonzalo separa por diseño: ABO testea, CBO escala. No incompatibles — dos filosofías. <b>Testear ambas con datos propios.</b></div>` },
+    ]},
+  { id:"S2", src:"socio", color:"var(--socio)", title:"Segmentación en el nuevo enfoque",
+    cards:[
+      { n:"2", title:"Abrir al testear, cerrar con data", tags:["Aug 17"], html:`
+        <ul>
+          <li><b>No filtrar de más al inicio:</b> error de Gonzalo filtrar por edad/criterios estrechos desde el principio. Arrancar sin filtrar.</li>
+          <li><b>Con validación, sí segmentar:</b> CBO ganadora suya = mujer 35–40 hasta 65+. Se estrecha después, con data.</li>
+          <li>Refuerza la doctrina de mentoría (abierta por defecto; cerrar con datos).</li>
+        </ul>` },
+    ]},
+  { id:"S3", src:"socio", color:"var(--socio)", title:"Australia — arbitraje estacional (operativa)",
+    cards:[
+      { n:"3", title:"Tienda nueva y ventana de primavera", tags:["Aug 17"], html:`
+        <ul>
+          <li><b>Tienda nueva desde cero</b> para Australia; pausar la actual (el recurso de la denuncia de Shopify solo vale en esa tienda).</li>
+          <li><b>Ventana:</b> en septiembre Australia entra en primavera; el producto de verano europeo que quedó a medias se relanza allí para coger la ola completa.</li>
+          <li><b>Entrada nichada pero algo abierta:</b> vestidos + zapatos al principio, para ver cómo reacciona el píxel; luego cerrar.</li>
+          <li>Reutilizar creativo, cambiar idioma y adaptar.</li>
+          <li><b>Mercado:</b> más capital/poder adquisitivo; bohemio/hippie/retro/floral y western funciona mucho. Germán validó entrar directamente nichado en otro mercado (otro píxel, ojo).</li>
+        </ul>` },
+    ]},
+  { id:"S4", src:"socio", color:"var(--socio)", title:"Infraestructura de cuentas para Q4",
+    cards:[
+      { n:"4", title:"Meta + pagos, estructura limpia desde cero", tags:["Aug 17"], html:`
+        <ul>
+          <li><b>Estructura nueva y separada:</b> perfil FB nuevo (calentado poco a poco), portfolio nuevo verificado con la LLC, cuentas publicitarias de cero. La antigua estaba «en la mierda».</li>
+          <li><b>Cobrar en divisa local</b> (USD/AUD/EUR) para evitar comisiones de cambio. La zona horaria <b>no se cambia después</b> → ponerla bien de entrada.</li>
+          <li><b>Calentar en paralelo y con tiempo:</b> perfil hoy → portfolio en 4–5 días → cuenta más adelante. Cuentas de sobra por si tumban una en Q4.</li>
+          <li><b>A preparar:</b> AU en AUD (nueva) y EU en EUR (nueva).</li>
+          <li><b>Pasarela — Slash vs Mercury:</b> Slash cobra bastantes menos comisiones (por debajo pagas en dólares y lo abarata). Adam lleva mes y medio en revisión de Slash; migrar cuando aprueben.</li>
+        </ul>` },
+    ]},
+  { id:"S5", src:"socio", color:"var(--socio)", title:"Precios y márgenes",
+    cards:[
+      { n:"5", title:"Subir ticket, no competir por precio", tags:["Aug 17"], html:`
+        <ul>
+          <li><b>Suelo alto:</b> Adam no baja de 50 €; en Australia apunta a ≥60 €. Vende vestidos entre 54,95 € y 60 €.</li>
+          <li>A Gonzalo 50 € ya le parece barato.</li>
+          <li><b>Rechazo al low-ticket:</b> 30–40 € deja margen de mierda; un día malo con Meta y se va el profit. Conclusión: <b>subir ticket</b>.</li>
+        </ul>` },
+    ]},
+  { id:"S6", src:"socio", color:"var(--socio)", title:"Público mayor y ángulo de venta",
+    cards:[
+      { n:"6", title:"Comodidad/ortopédico y maximizar carrito", tags:["Aug 17"], html:`
+        <ul>
+          <li><b>Quién compra en España:</b> gente de 40–50 para arriba. Los jóvenes compran menos.</li>
+          <li><b>Vender «engrosado»:</b> que el comprador se lleve lo máximo (dos pares de zapatos). Nichar la tienda ayuda.</li>
+          <li><b>Nicho de oro:</b> calzado ortopédico/comodidad para mayores.</li>
+          <li><b>El ángulo manda, no la estética:</b> no «mira qué bonito» sino comodidad (andar mucho en verano, vestido suelto que no agobia). Adam ya tira ángulos ortopédicos y le compran por eso.</li>
+        </ul>` },
+    ]},
+  { id:"S7", src:"socio", color:"var(--socio)", title:"Nicho vs Moda — creativos, copy y ecosistema",
+    cards:[
+      { n:"7", title:"La comparativa (Gonzalo defiende el nicho)", tags:["Aug 17"], html:`
+        <ul>
+          <li><b>El nicho es más fácil de analizar con Claude:</b> cubre todos los dolores del avatar y saca ángulos al momento; la moda es más «de gusto».</li>
+          <li><b>Pero exige más creativos:</b> creativo tras creativo atacando persona tras persona hasta ver qué subnichos compran.</li>
+          <li><b>Formato más sencillo:</b> no hace falta vídeo siempre; se apoyan en copies largos que tocan la dolencia → landing o página de producto → compra del tirón.</li>
+          <li><b>Ecosistema multi-fanpage:</b> fanpage de marca + fanpages tipo «la doctora que recomienda»; todo se retroalimenta. En moda es mucho más complejo.</li>
+          <li><b>Suscripción / MRR</b> disponible en consumibles (suplementación) — recurrente que la moda no da.</li>
+        </ul>` },
+    ]},
+  { id:"S8", src:"socio", color:"var(--socio)", title:"Ingeniería inversa por producto (caso Pauliti.lab)",
+    cards:[
+      { n:"8", title:"Rastrear una tienda que se oculta", tags:["Aug 17"], html:`
+        <ul>
+          <li><b>Producto:</b> colágeno que quita picores a perros (suplementación mascotas). Marca Pauliti.lab. Caro, con suscripción, muchos países, varias cuentas publicitarias.</li>
+          <li><b>El rastreo:</b> partió de una tienda reconocida por el formato de imagen (Lorenza Club, cerrada). Su biblioteca de anuncios sacaba relacionados de «una doctora».</li>
+          <li><b>El truco con Claude:</b> buscar tiendas de suplementación de los últimos ~6 meses, creadas en EE.UU. vendiendo en España, filtrando tienda por tienda por ubicación de la LLC (Albuquerque) hasta confirmar.</li>
+          <li><b>Aprendizaje:</b> cuando alguien cierra una tienda suele reabrir con el mismo producto → se reencuentra cruzando producto + geo (LLC) + fecha + biblioteca. <b>Claude acelera el cribado.</b></li>
+        </ul>` },
+    ]},
+  { id:"S9", src:"socio", color:"var(--socio)", title:"Fuentes de producto y de competencia",
+    cards:[
+      { n:"9", title:"Catálogo del proveedor y Excel de tiendas", tags:["Aug 17"], html:`
+        <ul>
+          <li><b>Catálogo del proveedor (el «mutual», vía Germán):</b> «una pasada». Product catalog con precios de envío; lo que se sale es lo que se vende fuerte. Winners de 30/50/100 $.</li>
+          <li><b>Excel de ~600 tiendas</b> de Adam: guarda tienda <b>y</b> biblioteca de anuncios (la tienda cierra pero la biblioteca queda). Mantenimiento: ir eliminando nichos cerrados.</li>
+          <li><b>Realidad:</b> hay gente copiando tiendas enteras; muchos lo prueban y se desinflan. Al público mayor «le vendes cualquier cosa».</li>
+        </ul>` },
+    ]},
+  { id:"S10", src:"socio", color:"var(--socio)", title:"Herramientas y automatización con IA",
+    cards:[
+      { n:"10", title:"Reporting, Meta MCP, Klaviyo, vídeo IA", tags:["Aug 17"], html:`
+        <ul>
+          <li><b>Reporting con Claude:</b> Adam pasa capturas de FB/Shopify y saca el ROAS; explora apps de Shopify (ROAS, atención al cliente) como «empleados».</li>
+          <li><b>Meta MCP (Gonzalo):</b> Claude le crea las campañas directamente (imágenes; vídeo aún no). Clave: dejarle todo el contexto bien definido («no filtres por nada»). Adam aún no lo tiene → a valorar.</li>
+          <li><b>Klaviyo — coste:</b> llegó a ~100 € y subiendo. Montar flujo para gestionar/eliminar perfiles que no compran. Adam lo canceló por eso.</li>
+          <li><b>Fathom</b> para grabar/transcribir llamadas → contexto a Claude (el método que originó estos docs).</li>
+          <li><b>Vídeo IA:</b> interés en Higgsfield / Seedance 2.5 (Soul) para UGC y «corto Nike».</li>
+        </ul>` },
+    ]},
+  { id:"S11", src:"socio", color:"var(--socio)", title:"Contraste rápido de enfoques (Ger vs Gonzalo)",
+    cards:[
+      { n:"11", title:"Tabla de decisión propia", tags:["Aug 17"], warn:true, html:`
+        <ul>
+          <li><b>Testeo —</b> Ger: dentro de CBO (incl. híbrido). Gonzalo: <b>ABO puro</b>, conjuntos por formato, ≤3 ads.</li>
+          <li><b>Escalado —</b> Ger: escalar la CBO con saltos grandes. Gonzalo: graduar winners de ABO a <b>ACBO</b>.</li>
+          <li><b>Separación test/escala —</b> Ger: conviven. Gonzalo: <b>separadas por diseño</b>.</li>
+          <li><b>Segmentación —</b> ambos abierta; cerrar con data (mujer 35–65+).</li>
+          <li><b>Precio —</b> Ger: ticket sano conservador. Gonzalo: no bajar de 50 €, AU ≥60 €.</li>
+          <li><b>Nicho vs moda —</b> Ger: moda. Gonzalo: defiende nicho (sistematizable con IA, MRR).</li>
+        </ul>
+        <div class="note warn">No elegir a ciegas: el propio principio de la mentoría es <b>testarlo todo y quedarte con tu validación</b>. Lo de Gonzalo entra como hipótesis a probar, sobre todo el ABO→ACBO.</div>` },
+    ]},
+];
+
+const CALLS = [
+  { src:"mentor", date:"2025-05", title:"Mentoría Germán Viventor — resumen estructurado", format:"PDF",
+    topics:"Funnel/benchmarks · oferta+carrito (48 h) · escalado (20% / x3–x5 / 8–12 AM) · colección→CBO · píxel (50 conv) · post-compra/chargebacks · volumen 4→5 cifras · filmino · Instagram · competidores ocultos",
+    links:[{t:"Drive",u:"https://drive.google.com/file/d/1IerYV3dh_gcSkbieDLSrtsjR9R0lTa59/view"}] },
+  { src:"mentor", date:"2026-06-14", title:"Mentoría domingo 14 — notas", format:"DOCX",
+    topics:"Mapa de mercados (Grecia, Polonia, Francia, Italia, Singapur, Japón) · trending vs tradicional dentro del subnicho",
+    links:[{t:"Drive",u:"https://drive.google.com/file/d/1uUlPzy6xom_ynCE4IZvzShI5NytLxKW3/view"}] },
+  { src:"mentor", date:"2026-06-23", title:"Llamada 1-1 con Ger (vídeo 876 MB)", format:"Vídeo",
+    topics:"⏳ Sin transcripción — pendiente de transcribir para incorporar.", pending:true,
+    links:[{t:"Drive",u:"https://drive.google.com/file/d/13Q1CC0fxvotk0Z-zyQ_c68a59lEIh6Qo/view"}] },
+  { src:"mentor", date:"2026-08-16", title:"Impromptu Zoom Meeting (85 min)", format:"Fathom",
+    topics:"Métricas de testeo · cadencia/diversificación · segmentación · escalado (saltos grandes) · días de la semana · Winning Hunter · catálogo proveedor · zona horaria · CPC · arbitraje estacional (Australia) · mindset",
+    links:[{t:"Fathom",u:"https://fathom.video/share/FnfqJprc8xMVEN4vsxFUahexaBskB4eY"}] },
+  { src:"socio", date:"2026-08-17", title:"Impromptu Google Meet con Gonzalo (43 min)", format:"Fathom",
+    topics:"ABO→ACBO · Australia · infra de cuentas Q4 · Slash vs Mercury · precios · nicho vs moda · ingeniería inversa (Pauliti.lab) · Meta MCP · Klaviyo",
+    links:[{t:"Fathom",u:"https://fathom.video/share/xbB75Hh66NJkx4yh7aZKCqhwJPVvXhhC"}] },
+];
+
+const ACTIONS = {
+  mentor:[
+    "<b>Lanzar test inicial en Australia</b> con el producto de verano, entrada nichada pero no cerrada; si no reacciona en 1–2 semanas, ampliar.",
+    "<b>Definir la zona horaria</b> de la cuenta AU (la que cubra más población; investigar con Claude).",
+    "<b>Calcular el CPC</b> de competidores australianos por ingeniería inversa para tener baremo antes de entrar.",
+    "<b>Relanzar el producto de verano europeo empezando en mayo</b> (año que viene).",
+    "<b>Transcribir el vídeo 1-1 del 23 jun</b> e incorporarlo a la biblioteca.",
+  ],
+  socio:[
+    "<b>Australia:</b> crear tienda nueva desde cero (pausar la actual), entrar nichado pero algo abierta (vestidos + zapatos), reutilizar creativo y cambiar idioma.",
+    "<b>Zona horaria AU:</b> investigar con Claude cuál cubre la mayor parte de la población (ref: EE.UU. = Los Ángeles).",
+    "<b>Infra Meta:</b> perfil + portfolio (verificado LLC) + cuentas publicitarias nuevas para AU (AUD) y EU (EUR), calentadas en paralelo; fijar bien la zona horaria de entrada.",
+    "<b>Pagos:</b> seguimiento a la aprobación de Slash (menos comisiones que Mercury) y migrar cuando entre.",
+    "<b>Compartir con Gonzalo:</b> el Excel de ~600 tiendas y las recomendaciones de apps de Shopify (ROAS, atención al cliente).",
+    "<b>Probar la estrategia ABO→ACBO</b> en paralelo a la CBO para comparar con datos propios.",
+  ],
+};
+
+/* ============================================================ STATE + RENDER */
+let TAB="temas", SRC="all", Q="";
+const view=document.getElementById("view");
+const $q=document.getElementById("q");
+
+const countCards = f => SECTIONS.filter(f).reduce((a,s)=>a+s.cards.length,0);
+const TABS=[
+  {id:"temas", label:"Temas", ico:'<path d="M4 6h16M4 12h16M4 18h10"/>', cnt:()=>SECTIONS.reduce((a,s)=>a+s.cards.length,0)},
+  {id:"llamadas", label:"Llamadas", ico:'<path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/>', cnt:()=>CALLS.length},
+  {id:"acciones", label:"Acción", ico:'<path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>', cnt:()=>ACTIONS.mentor.length+ACTIONS.socio.length},
+];
+
+function renderTabs(){
+  document.getElementById("tabs").innerHTML=TABS.map(t=>`
+    <div class="tab ${TAB===t.id?'active':''}" onclick="go('${t.id}')">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${t.ico}</svg>
+      ${t.label}<span class="cnt">${t.cnt()}</span>
+    </div>`).join("");
+}
+
+function hl(txt){
+  if(!Q) return txt;
+  try{ return txt.replace(new RegExp('('+Q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<mark>$1</mark>'); }
+  catch(e){ return txt; }
+}
+const matches = (...parts)=> !Q || parts.join(" ").toLowerCase().includes(Q.toLowerCase());
+
+function renderTemas(){
+  const secs = SECTIONS.filter(s=> SRC==="all"||s.src===SRC);
+  let out="";
+  let shown=0;
+  secs.forEach(s=>{
+    const cards = s.cards.filter(c=>matches(c.title,c.html,s.title));
+    if(!cards.length) return;
+    shown+=cards.length;
+    out+=`<div class="sec-head">
+      <div class="k" style="background:${s.color}">${s.id}</div>
+      <div><h2>${hl(s.title)}</h2><div class="sub">${s.src==="mentor"?"Mentoría · Ger":"Socios · Gonzalo"}</div></div>
+    </div><div class="grid">`;
+    cards.forEach(c=>{
+      let tags = (c.tags||[]).map(t=>`<span class="tag">${t}</span>`).join("");
+      if(c.evo) tags+=`<span class="tag evo">🔄 Evolución</span>`;
+      if(c.warn) tags+=`<span class="tag warn">⚠️ Contraste</span>`;
+      if(c.star) tags+=`<span class="tag star">★ Clave</span>`;
+      out+=`<article class="card" style="--src-color:${s.color}">
+        <div class="card-top"><h3>${hl(c.title)}</h3><span class="num">${c.n}</span></div>
+        ${c.html}
+        <div class="tag-row">${tags}</div>
+      </article>`;
+    });
+    out+=`</div>`;
+  });
+  view.innerHTML = introHTML() + (shown? out : emptyHTML());
+}
+
+function renderLlamadas(){
+  const calls = CALLS.filter(c=> (SRC==="all"||c.src===SRC) && matches(c.title,c.topics,c.date));
+  let out=`<p class="intro">Registro cronológico de todas las llamadas sintetizadas. Cada tarjeta enlaza a la grabación o al documento original por si necesitas el matiz completo.</p>`;
+  out+=`<div class="grid">`;
+  if(!calls.length){ view.innerHTML=introHTML()+emptyHTML(); return; }
+  calls.slice().reverse().forEach(c=>{
+    const color = c.src==="mentor"?"var(--mentor)":"var(--socio)";
+    out+=`<article class="call-card" style="--src-color:${color}">
+      <div class="call-meta">
+        <span class="badge ${c.src}">${c.src==="mentor"?"MENTORÍA":"SOCIOS"}</span>
+        <span class="date">${c.date}</span>
+        <span class="tag">${c.format}</span>
+        ${c.pending?'<span class="tag warn">Pendiente</span>':''}
+      </div>
+      <h3>${hl(c.title)}</h3>
+      <p>${hl(c.topics)}</p>
+      <div class="call-links">
+        ${c.links.map(l=>`<a class="lnk ${c.pending?'':''}" href="${l.u}" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14 21 3"/></svg>
+          ${l.t}</a>`).join("")}
+      </div>
+    </article>`;
+  });
+  out+=`</div>`;
+  view.innerHTML=out;
+}
+
+function renderAcciones(){
+  const showM = SRC==="all"||SRC==="mentor";
+  const showS = SRC==="all"||SRC==="socio";
+  let out=`<p class="intro">Los <b>action items</b> abiertos de Adam derivados de las llamadas. Foco actual: montar Australia y la infraestructura de cuentas para Q4.</p>`;
+  out+=`<div class="act-col-wrap">`;
+  if(showM) out+=`<div class="act-col"><h3><span class="dot mentor"></span> Desde la mentoría (Ger)</h3>${
+    ACTIONS.mentor.filter(a=>matches(a)).map((a,i)=>`<div class="act-item"><div class="n">${i+1}</div><p>${hl(a)}</p></div>`).join("")||emptyMini()}</div>`;
+  if(showS) out+=`<div class="act-col"><h3><span class="dot socio"></span> Desde los socios (Gonzalo)</h3>${
+    ACTIONS.socio.filter(a=>matches(a)).map((a,i)=>`<div class="act-item"><div class="n">${i+1}</div><p>${hl(a)}</p></div>`).join("")||emptyMini()}</div>`;
+  out+=`</div>`;
+  view.innerHTML=out;
+}
+
+function introHTML(){
+  return `<p class="intro">Síntesis viva de las mentorías de <b>Ger</b> (formación «Vision») y de las llamadas con tu socio <b>Gonzalo</b>. Organizado por <b>temas</b> para que la doctrina se acumule; busca arriba o filtra por fuente. Marcas: <span class="tag evo" style="display:inline-block">🔄 Evolución</span> el criterio cambió con el tiempo · <span class="tag warn" style="display:inline-block">⚠️ Contraste</span> divergencia entre fuentes.</p>`
+  + filtersHTML();
+}
+function filtersHTML(){
+  return `<div class="filters">
+    <span class="chip all ${SRC==='all'?'on':''}" onclick="setSrc('all')">Todo</span>
+    <span class="chip mentor ${SRC==='mentor'?'on':''}" onclick="setSrc('mentor')"><span class="dot mentor"></span>Mentoría · Ger</span>
+    <span class="chip socio ${SRC==='socio'?'on':''}" onclick="setSrc('socio')"><span class="dot socio"></span>Socios · Gonzalo</span>
+  </div>`;
+}
+function emptyHTML(){
+  return `<div class="empty">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    <div>Sin resultados para «${Q}».</div></div>`;
+}
+const emptyMini=()=>`<div class="act-item"><p style="color:var(--txt-3)">Sin coincidencias.</p></div>`;
+
+function render(){
+  renderTabs();
+  if(TAB==="temas") renderTemas();
+  else if(TAB==="llamadas"){ if(SRC==="all"||true){} renderLlamadasWrap(); }
+  else renderAccionesWrap();
+}
+function renderLlamadasWrap(){ view.innerHTML=""; renderLlamadas(); prependFilters(); }
+function renderAccionesWrap(){ renderAcciones(); prependFilters(); }
+function prependFilters(){ view.insertAdjacentHTML("afterbegin", filtersHTML()); }
+
+function go(tab){ TAB=tab; window.scrollTo({top:0,behavior:"smooth"}); render(); }
+function setSrc(s){ SRC=s; render(); }
+
+$q.addEventListener("input",e=>{ Q=e.target.value.trim(); render(); });
+document.addEventListener("keydown",e=>{
+  if(e.key==="/" && document.activeElement!==$q){ e.preventDefault(); $q.focus(); }
+  if(e.key==="Escape"){ $q.value=""; Q=""; $q.blur(); render(); }
+});
+
+/* theme */
+function applyTheme(t){
+  document.documentElement.setAttribute("data-theme",t);
+  document.querySelector('meta[name=theme-color]').setAttribute("content", t==="light"?"#f4f6fa":"#0f1115");
+  document.getElementById("theme-ico").innerHTML = t==="light"
+    ? '<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>'
+    : '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>';
+}
+let THEME = (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches)?"light":"dark";
+function toggleTheme(){ THEME = THEME==="dark"?"light":"dark"; applyTheme(THEME); }
+
+// footer append after each render
+const _render=render;
+render=function(){ _render(); view.insertAdjacentHTML("beforeend",
+  `<div class="foot">ECOM MASTER · Biblioteca de Mentorías — documento vivo, se amplía con cada llamada.<br>Fuentes: síntesis de mentoría (Ger · «Vision») y de socios (Gonzalo Gomiz). Complementa al documento maestro de estrategia y operativa.</div>`);
+};
+
+applyTheme(THEME);
+render();
+
+/* PWA */
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+}
+</script>
+</body>
+</html>
