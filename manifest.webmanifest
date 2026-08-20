@@ -1,0 +1,15 @@
+{
+  "name": "ECOM MASTER · Biblioteca de Mentorías",
+  "short_name": "ECOM MASTER",
+  "description": "Síntesis navegable de las mentorías (Ger) y llamadas con socios (Gonzalo): testeo, escalado, producto, mercados y mindset.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0f1115",
+  "theme_color": "#0f1115",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
