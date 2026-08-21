@@ -117,14 +117,42 @@
   .dot.mentor{background:var(--mentor)} .dot.socio{background:var(--socio)}
 
   /* section headers */
-  .sec-head{display:flex;align-items:center;gap:11px;margin:30px 0 15px}
-  .sec-head:first-of-type{margin-top:6px}
+  /* accordion */
+  .toolbar{display:flex;gap:8px;align-items:center;margin:0 0 16px;flex-wrap:wrap}
+  .toolbar .mini{
+    font-size:12px;font-weight:700;padding:6px 12px;border-radius:9px;cursor:pointer;
+    border:1px solid var(--line);color:var(--txt-2);background:var(--card);transition:.15s;
+    display:inline-flex;align-items:center;gap:6px;
+  }
+  .toolbar .mini:hover{color:var(--txt);border-color:var(--txt-3)}
+  .toolbar .mini svg{width:14px;height:14px}
+  .section{margin-bottom:10px;border:1px solid var(--line-soft);border-radius:14px;background:var(--bg-2);overflow:hidden}
+  .sec-head{
+    display:flex;align-items:center;gap:11px;padding:14px 16px;cursor:pointer;
+    user-select:none;transition:background .15s;
+  }
+  .sec-head:hover{background:var(--card)}
   .sec-head .k{
     font-size:12px;font-weight:800;width:30px;height:30px;border-radius:9px;
     display:grid;place-items:center;flex-shrink:0;color:#fff;
   }
-  .sec-head h2{font-size:17px;margin:0;font-weight:800;letter-spacing:-.3px}
-  .sec-head .sub{font-size:12.5px;color:var(--txt-3);font-weight:600}
+  .sec-head h2{font-size:16px;margin:0;font-weight:800;letter-spacing:-.3px}
+  .sec-head .sub{font-size:12px;color:var(--txt-3);font-weight:600}
+  .sec-head .meta{flex:1;min-width:0}
+  .sec-head .cnt-pill{
+    font-size:11px;font-weight:800;color:var(--txt-3);background:var(--card);
+    border:1px solid var(--line);border-radius:20px;padding:2px 9px;flex-shrink:0;
+  }
+  .sec-head .chev{
+    width:20px;height:20px;flex-shrink:0;color:var(--txt-3);transition:transform .22s ease;
+  }
+  .section.open .sec-head .chev{transform:rotate(180deg)}
+  .section .body{
+    display:grid;grid-template-rows:0fr;transition:grid-template-rows .26s ease;
+  }
+  .section.open .body{grid-template-rows:1fr}
+  .section .body > div{overflow:hidden;min-height:0}
+  .section .grid{padding:2px 16px 16px}
 
   /* grid + cards */
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:15px}
@@ -575,7 +603,7 @@ const ACTIONS = {
 };
 
 /* ============================================================ STATE + RENDER */
-let TAB="temas", SRC="all", Q="";
+let TAB="temas", SRC="all", Q="", OPEN=new Set();
 const view=document.getElementById("view");
 const $q=document.getElementById("q");
 
@@ -601,6 +629,8 @@ function hl(txt){
 }
 const matches = (...parts)=> !Q || parts.join(" ").toLowerCase().includes(Q.toLowerCase());
 
+const CHEV=`<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>`;
+
 function renderTemas(){
   const secs = SECTIONS.filter(s=> SRC==="all"||s.src===SRC);
   let out="";
@@ -609,25 +639,45 @@ function renderTemas(){
     const cards = s.cards.filter(c=>matches(c.title,c.html,s.title));
     if(!cards.length) return;
     shown+=cards.length;
-    out+=`<div class="sec-head">
-      <div class="k" style="background:${s.color}">${s.id}</div>
-      <div><h2>${hl(s.title)}</h2><div class="sub">${s.src==="mentor"?"Mentoría · Ger":"Socios · Gonzalo"}</div></div>
-    </div><div class="grid">`;
+    const isOpen = Q ? true : OPEN.has(s.id);
+    let cardsHTML="";
     cards.forEach(c=>{
       let tags = (c.tags||[]).map(t=>`<span class="tag">${t}</span>`).join("");
       if(c.evo) tags+=`<span class="tag evo">🔄 Evolución</span>`;
       if(c.warn) tags+=`<span class="tag warn">⚠️ Contraste</span>`;
       if(c.star) tags+=`<span class="tag star">★ Clave</span>`;
-      out+=`<article class="card" style="--src-color:${s.color}">
+      cardsHTML+=`<article class="card" style="--src-color:${s.color}">
         <div class="card-top"><h3>${hl(c.title)}</h3><span class="num">${c.n}</span></div>
         ${c.html}
         <div class="tag-row">${tags}</div>
       </article>`;
     });
-    out+=`</div>`;
+    out+=`<section class="section ${isOpen?'open':''}" data-sec="${s.id}">
+      <div class="sec-head" onclick="toggleSec('${s.id}')">
+        <div class="k" style="background:${s.color}">${s.id}</div>
+        <div class="meta"><h2>${hl(s.title)}</h2><div class="sub">${s.src==="mentor"?"Mentoría · Ger":"Socios · Gonzalo"}</div></div>
+        <span class="cnt-pill">${cards.length} ${cards.length===1?'ficha':'fichas'}</span>
+        ${CHEV}
+      </div>
+      <div class="body"><div><div class="grid">${cardsHTML}</div></div></div>
+    </section>`;
   });
-  view.innerHTML = introHTML() + (shown? out : emptyHTML());
+  const toolbar = shown ? `<div class="toolbar">
+    <button class="mini" onclick="expandAll()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 13 5 5 5-5M7 6l5 5 5-5"/></svg>Expandir todo</button>
+    <button class="mini" onclick="collapseAll()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 11-5-5-5 5M17 18l-5-5-5 5"/></svg>Contraer todo</button>
+  </div>` : "";
+  view.innerHTML = introHTML() + toolbar + (shown? out : emptyHTML());
 }
+
+function toggleSec(id){
+  const el=document.querySelector(`.section[data-sec="${id}"]`);
+  if(!el) return;
+  const nowOpen=!el.classList.contains("open");
+  el.classList.toggle("open",nowOpen);
+  if(nowOpen) OPEN.add(id); else OPEN.delete(id);
+}
+function expandAll(){ SECTIONS.forEach(s=>OPEN.add(s.id)); render(); }
+function collapseAll(){ OPEN.clear(); if(Q){ Q=""; $q.value=""; } render(); }
 
 function renderLlamadas(){
   const calls = CALLS.filter(c=> (SRC==="all"||c.src===SRC) && matches(c.title,c.topics,c.date));
@@ -670,7 +720,7 @@ function renderAcciones(){
 }
 
 function introHTML(){
-  return `<p class="intro">Síntesis viva de las mentorías de <b>Ger</b> (formación «Vision») y de las llamadas con tu socio <b>Gonzalo</b>. Organizado por <b>temas</b> para que la doctrina se acumule; busca arriba o filtra por fuente. Marcas: <span class="tag evo" style="display:inline-block">🔄 Evolución</span> el criterio cambió con el tiempo · <span class="tag warn" style="display:inline-block">⚠️ Contraste</span> divergencia entre fuentes.</p>`
+  return `<p class="intro">Síntesis viva de las mentorías de <b>Ger</b> (formación «Vision») y de las llamadas con tu socio <b>Gonzalo</b>. Organizado por <b>temas</b> para que la doctrina se acumule. Toca un tema para desplegarlo, busca arriba (auto-abre los temas con coincidencias) o filtra por fuente. Marcas: <span class="tag evo" style="display:inline-block">🔄 Evolución</span> el criterio cambió con el tiempo · <span class="tag warn" style="display:inline-block">⚠️ Contraste</span> divergencia entre fuentes.</p>`
   + filtersHTML();
 }
 function filtersHTML(){
