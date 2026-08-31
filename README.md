@@ -9,7 +9,7 @@
 
 El conocimiento se organiza por **temas**, no por fecha, de modo que la doctrina se **acumule y se refuerce** con cada sesión en vez de dispersarse. Dentro de cada bloque, cada punto lleva entre paréntesis la llamada de la que sale — para poder volver al material original si hace falta el matiz completo, y para ver cómo evoluciona el criterio del mentor con el tiempo. La filosofía de Ger es deliberadamente **anti-receta**: no da fórmulas fijas, entrena tu criterio para leer el mercado. Lo que sigue son principios, no pasos rígidos — la validación final siempre es tu propia cuenta, tu mercado y tu tienda.
 
-**Llamadas cubiertas:** Mayo 2025 · 14 jun 2026 · **23 jun 2026 (1-1 con Adam)** · 5 ago · 9 ago · 16 ago · 19 ago · 26 ago 2026 (registro completo al final). *(La 1-1 del 23 jun ya está transcrita e incorporada — resuelto el pendiente anterior.)*
+**Llamadas cubiertas:** Mayo 2025 · 14 jun 2026 · **23 jun 2026 (1-1 con Adam)** · 5 ago · 9 ago · 16 ago · 19 ago · 26 ago · **30 ago 2026 (2 partes)** (registro completo al final). *(La 1-1 del 23 jun ya está transcrita e incorporada — resuelto el pendiente anterior.)*
 
 > **Nota de evolución.** Entre mayo 2025 y agosto 2026 el mentor ha ido cambiando algunos matices (sobre todo en escalado, agresividad de testeo y, muy marcadamente, en el **cambio de proveedor** de agosto 2026). Donde hay divergencia entre una llamada antigua y una reciente, se marca (🔄 **Evolución**) y **manda lo más reciente**, pero se conserva lo anterior porque el porqué sigue enseñando.
 
@@ -44,6 +44,7 @@ El error mental a evitar: interpretar "buenas métricas sin venta" como un fraca
 - **No ir "a saco":** máximo agresivo **3–4 testeos/día**, repartidos entre días. Un solo día bueno o malo no es representativo. *(Aug 16.)*
 - **Presupuesto de testeo: mínimo 50 € (mejor que 30 €)** si el cashflow lo permite — se compra más data, el píxel optimiza antes. 30 € solo con cashflow muy ajustado o como testeo secundario de bajo riesgo. Regla de corte: **sin venta en 24 h con 30 €, apagar**. Para escalar, **saltar directo al doble** (30→60, 50→100), no incrementos pequeños. *(Aug 19.)*
 - **Hora de lanzamiento: 3:00–5:00 AM hora del mercado.** Casi nadie lanza a esa hora → puja barata, sin picos de coste, y tu campaña ya lleva tracción/aprendizaje cuando la competencia publica a las 7-8 AM. Si una cuenta gasta demasiado rápido por la mañana: crear cuenta nueva y/o retrasar el lanzamiento de 3 a 5 AM para estirar el gasto. (También absorbe el delay de 20-60 min de publicación.) *(Aug 19.)*
+- **Por qué la franja 3-5 AM (no es "magia"):** lo importante no es que el público esté dormido, sino el **patrón de gasto de tu cuenta**. La convención del sector es publicar a las 6 AM (dropshipping) o a medianoche (branded); publicando antes, con poco tráfico, el anuncio gasta poquísimo pero ya empieza a **descartar señales malas** (a quién NO mostrar) antes de que despierte tu público real → llegas con ventaja de aprendizaje cuando a las 6-7 AM todos publican a la vez y las métricas se saturan. **Cuanto más impar la hora, mejor** (5:23 en vez de en punto) para "competir solo" en ese instante. No publicar tan tarde como las 7 AM ("vas tarde"). *(Aug 30.)*
 - **Por qué no meter mucho volumen de golpe:** Shopify Payments **retiene pagos** si escalas facturación muy rápido → te ahogas de cash flow antes de cobrar. Todo necesita periodo de asentamiento. *(Aug 16.)*
 - **Diversificar al principio (50/50):** colección / producto individual; y dentro, hombre / mujer; y foto / vídeo. "No te quites las balas." Luego ennichar hacia lo que mejor funcione. *(Aug 16 · Aug 5.)*
 - **Comparar campañas día a día:** si todas caen → día flojo; si una se mantiene y otra baja → ahí decides dónde meter fuego. *(Aug 16.)*
@@ -80,11 +81,18 @@ El error mental a evitar: interpretar "buenas métricas sin venta" como un fraca
 - **Ser permisivo con CPC alto al principio** (1 € y pico en los primeros 20-30 € es normal, suele bajar). Lo que importa es el **ATC**, no el CPC. *(Jun 23 · 1-1.)*
 - **Puntos de decisión por gasto acumulado:** 20-30 € con 1-3 ATC → seguir; hasta 50 € con ATC pero sin venta → seguir; **a los 50 € es el punto de cortar o no** (si buen CTR y CPC bajando, dejar correr aunque no sea rentable el día 1). Con 150 €/día, día 1 = 1 venta, día 2 = 2-4, subiendo con la optimización. *(Jun 23 · 1-1.)*
 
+**Detalles operativos de colección (reforzado 30 ago):**
+- **Máximo 10-15 productos por colección, nunca más de 15:** pasado ese número Shopify crea una pestaña de paginación nueva que distrae del funnel. Orden: primero los que ya han vendido, luego los de más "añadir al carrito". *(Aug 30.)*
+- **Duplicar los productos** que metes en la colección (no reutilizar la ficha individual) para poder diferenciar en Shopify de qué canal viene cada venta (colección vs. ficha) y calcular el **ROAS limpio por campaña** con el contador de "unidades vendidas". Enlazar la campaña directamente a la colección. *(Aug 30.)*
+- **Presupuesto de testeo de colección: 100 € con 10 creativos** (≈10-15 €/creativo); si ya está validada, subir a 125-150 €. Los creativos no tienen que cubrir todos los productos: priorizar los bestsellers como "gancho" y el resto funciona como catálogo de refuerzo. *(Aug 30.)*
+- **Crear creativos de colección espiando a la competencia:** coger la colección de un competidor que factura, ordenar por más vendidos (filtro de Shopify), tomar los 3-7 primeros y crear imagen/vídeo sobre esos bestsellers. *(Aug 30.)*
+
 ## 7. De colección a CBO individual (el truco "infalible")
 
 - Los productos que **más venden dentro de una colección** → **sacarlos a CBOs individuales** ("subramas"), sin esperar. Y cada **variante de color de un ganador** debe testearse como **producto independiente**, no solo como creativo. Cita: *"gente ha pasado de 3.000 a 6.000 €/día así de fácil"* solo con esto; una colección de un producto ganador le facturó **8 veces más** que el producto suelto. Ger repite "que quede grabado". *(Mayo 2025 · reafirmado Aug 5.)*
 - Palanca principal de crecimiento horizontal; se pueden llevar varias colecciones + varios CBOs individuales a la vez si el píxel está entrenado. *(Mayo 2025.)*
 - **"En moda, nuestros creativos son los productos":** cada color/variante ya funciona como creativo nuevo → no hace falta renovar creativos tan agresivamente como en "branded/one product". *(Aug 5.)*
+- **Sacar un ganador de la colección para testearlo aparte NO te "canibaliza":** con presupuesto de testeo solo alcanzas a una fracción mínima del mercado (1.000-2.000 personas/día); en el peor caso, la campaña nueva actúa de **retargeting** (el cliente lo ve otra vez y compra). Meta no penaliza; más anuncios en circulación le viene bien también. *(Aug 30.)*
 
 ## 8. Escalado
 
@@ -95,6 +103,8 @@ El error mental a evitar: interpretar "buenas métricas sin venta" como un fraca
 - **El dinero de verdad está en el escalado:** con el mismo ROAS, más presupuesto = mucho más beneficio absoluto. **Condición: verificar que al escalar aguanta el ROAS** — validar rentabilidad tanto en 50 € como en 1.000 € de gasto. Si no aguanta, dejar que se optimice. *(Aug 16 · reforzado Aug 26.)*
 - **No hay presupuesto "mágico":** si por cash flow no llegas al salto ideal, escala algo menos, pero **sostenlo hasta cobrar por Shopify**. *(Aug 16.)*
 - **Regla de creativos al escalar (Manuel):** no hay regla fija; dejar que los creativos se optimicen **2-4 escalados** antes de renovar. Presupuesto ~**10-15 €/creativo** (colección 100 € → 10 creativos; estirable a 15-20 €). Ni muy pronto (ahogas la campaña) ni muy tarde (fatiga). Los creativos nuevos van con **delay** de un par de días. **Frecuencia:** 2 = retargeting sano; **>2,5–3 → cuidado, se quema el público.** *(Aug 5.)*
+- **Si una winner joven cae tras escalar: DESESCALAR, no apagar.** Ante 2-3 días de bajo rendimiento (típico: se fuma el presupuesto de madrugada sin ventas), baja el presupuesto a su nivel rentable anterior y dale tiempo a reoptimizar, en vez de matarla. No juzgues el día hasta las 24:00 (hay ventas "de rebote" por la tarde/noche de quien añadió al carrito antes). Al escalar de nuevo, **no te salgas del público/ángulo que ya funcionó**. *(Aug 30.)*
+- **Fija una hora recordable para escalar** (típico: las 12:00, fin del día de gasto) para no olvidarte — la rutina fija pesa más que acertar la "hora perfecta". *(Aug 30.)*
 
 > 🔄 **Evolución.** El marco de mayo (subir 20% con margen, cadencia 24-48 h) sigue válido como **ajuste fino de campañas asentadas**. Para **arrancar el escalado de una winner joven**, hoy Ger prefiere el **salto grande de golpe** (duplicar o más) para reducir reaprendizajes.
 
@@ -107,6 +117,9 @@ El error mental a evitar: interpretar "buenas métricas sin venta" como un fraca
 - **Evitar "parones"** (pausar, tocar contraseñas, reactivar tras mucho tiempo): desentrenan el píxel (caso Esteban: metió la contraseña de la tienda a mitad de día, rompió el checkout, gastó sin convertir → confundió al píxel). *(Aug 9.)*
 - **Regla:** si tienes buenas métricas, no cambies de píxel; si son muy malas y sostenidas, no hay problema en crear uno limpio. *(Aug 26.)*
 - **WeTracker Connect:** app que permite **desconectar y reconectar el mismo píxel a otra tienda de Shopify** sin perder los datos (alojados en WeTracker, no en el código de la tienda). Antes imposible con Facebook. *(Aug 26.)*
+- **Atribución de ventas: fíate de WeTracker, no del panel de Meta.** Meta pierde atribución con frecuencia (el cliente vuelve más tarde desde fuera del anuncio; compra diferida horas después; y sobre todo, si **rechaza cookies**, por ley Meta debe olvidar esa señal y no puede atribuir la venta ni entrenar el píxel con ella). Los **CPC/CTR sí son fiables**; lo que falla es la atribución de compra. **WeTracker** está mucho más integrado con Shopify → úsalo para calcular el ROAS real. *(Aug 30.)*
+- **Cuándo preocuparse:** perder 1-2 ventas es normal; solo es señal de fallo técnico si la pérdida es **constante y masiva** (~50% de conversiones sin registrar) → ahí sí, contactar con soporte de Meta. Importa más cuando ya hay volumen y quieres escalar (el píxel se entrena peor si "pierde" ventas). *(Aug 30.)*
+- **Jerarquía de métricas (para decidir):** **1) compras → 2) si no hay, añadir al carrito (intención) → 3) si no, CPC y CTR.** El **CPM al inicio está "contaminado"** y es volátil (se estabiliza con gasto/aprendizaje) — no le hagas caso los primeros días. Frecuencia/alcance solo como referencia de fiabilidad de la muestra (fía más a partir de ~10.000-30.000 alcanzados). *(Aug 30.)*
 
 ## 10. Estructura anti-baneo de cuentas de Meta (con diagrama en pantalla)
 
@@ -185,6 +198,19 @@ Motivado por el caso de Dani (2 cuentas baneadas) y por una **pregunta directa d
 - **Táctica de los que esconden su tienda:** nombre de Fan Page distinto al de la tienda, y nombre en Ad Library distinto al dominio. **Contra-táctica:** buscar por patrones de copy y de creativo, no solo por marca. *(Mayo 2025.)*
 - **Filtrar Ad Library por "anuncio inactivo"** para medir demanda histórica (poca competencia puede ser oportunidad o falta de demanda). *(Aug 9.)*
 
+## 18-bis. Elección de nicho: moda vs suplementos vs branded (por dónde empezar)
+
+Ante alumnos dudando entre nichos, la recomendación de Ger para **empezar y capitalizarse es MODA**, y lo argumenta:
+
+- **Moda es más fácil de arrancar:** no hay "punto de dolor" que resolver ni riesgo regulatorio ("esta camiseta, me da igual el material, la compro"). Se pueden **"robar" creativos/ángulos de la competencia** y vender con creativos sencillos → es más fácil probar productos que probar creativos complejos. *(Aug 30.)*
+- **Suplementos:** exigen **sofisticación de mercado alta** (ángulos de dolor, formatos de vídeo, poca competencia de la que copiar), más **riesgo regulatorio y de salud** (alergias, marcado CE/UE, dosis en el idioma local, controles de calidad si vienen de China) y un mercado saturado de marcas establecidas. "Se puede, pero necesita mucha paciencia y entendimiento." *(Aug 30.)*
+- **Branded (marca propia):** las redes "venden la moto"; montar la estructura publicitaria de branded desde cero lleva fácilmente **~5 meses de aprendizaje**. Cita de una alumna (Kristell): *"si no has hecho pasta con moda, no vas a hacer pasta con branded"*. Ger lo enmarca como **"problema de skill", no del nicho**. *(Aug 30.)*
+- **Las devoluciones existen en TODOS los nichos** (ejemplos: bicis en Decathlon, pizzas en Domino's, iPhone) — la gente reclama más de lo que elogia; no es un defecto exclusivo de moda. *(Aug 30.)*
+- **Referencia de techo en moda:** un colega de Ger factura **70.000 €/día en EE.UU. con sandalias de mujer** (ortopédicas con cintita ajustable) — producto ganador simple. Y varios alumnos han sacado sus primeros ~100.000 € netos con dropshipping de moda. *(Aug 30.)*
+- **Regla de oro antes de invertir:** si no tienes dinero para **comprar el producto físico y comprobar la calidad**, no gastes en él solo con herramientas/retoque de imagen. *(Aug 30.)*
+
+> **Encaje con el resto del sistema.** Esto **contrasta** con el enfoque "branded" de Álvaro Nortes (`ECOM-MASTER-Sintesis-Llamadas-Branded-Nortes.md`): ambos coinciden en **empezar por moda**, pero Nortes empuja a **evolucionar hacia branded** como activo a largo plazo, mientras Ger avisa de lo caro (en tiempo/skill) que es ese salto. Los dos son válidos; es cuestión de fase.
+
 ---
 
 # D. Mercados, expansión y estructura Q4
@@ -226,6 +252,13 @@ Motivado por el caso de Dani (2 cuentas baneadas) y por una **pregunta directa d
 - **Bancos y tarjetas — redundancia:** múltiples cuentas con la misma LLC (Mercury, Slash, Wise…) y **tarjetas separadas por función** (una Meta Ads, otra Shopify, otra suscripciones), para que un bloqueo no paralice todo. *(Aug 9.)*
 - **Cuentas Meta:** calentamiento gradual (login → esperar → Meta Ads → esperar → portfolio); 2FA; mínimo **2 personas con acceso al BM**; cuentas de respaldo ya calentadas. *(Aug 9.)*
 - **Divisa en USD:** Shopify paga siempre en USD; configurar todo en USD (Meta incluido) para que entradas/salidas cuadren y solo se convierta al calcular el ROAS. *(Aug 5.)*
+- **Aportar capital a la LLC es legal y normal:** transferir de tu cuenta personal → Slash (LLC) es "aportación de capital social" (EE.UU. no exige mínimo, a diferencia de España). Lo que **no** conviene es sacar dinero de la LLC a tu cuenta personal sin asesoría, sobre todo residiendo en España ("España quiere que todo tribute"). LLC de no residente tributa al 0% a nivel empresa; lo personal depende de tu residencia fiscal (regla de los 183 días). *(Aug 30.)*
+- **Coste de la LLC:** ~200-300 $ el alta + ~100 €/año de renovación + un informe/contabilidad anual (lo avisa Northwest, plazo ~marzo-abril). *(Aug 30.)*
+- **Montar la cuenta de Meta con la LLC:** puedes **añadir los datos de la LLC al portfolio empresarial ya existente** (Ajustes → Información del negocio), sin crear uno nuevo ni pasar verificación — da más confianza de cara a soporte. **No inicies la verificación de empresa formal** de Meta si no te la piden. *(Aug 30.)*
+
+**Redundancia bancaria (nunca dependas de un solo banco) — reforzado 30 ago:**
+- **Caso real:** Wise suspendió la cuenta de Ger sin aviso tras +1 año usándola (posible investigación por blanqueo del propio Wise, no del usuario); a un alumno le cerraron la cuenta al entrarle +20.000 € de golpe en una Wise nueva. **No muevas todo el saldo de golpe** de una cuenta a otra (levanta sospechas). *(Aug 30.)*
+- **Perfil de cada banco:** **Slash** = "número uno para e-commerce" (no se alarma con cargos recurrentes de Meta); **Mercury** = sólido para ingresar con LLC, pero lento para transferencias internacionales; **Wise/Revolut** = neobancos ágiles para divisa/envíos, pero más expuestos a cierres preventivos. Tener cuentas dentro del **mismo país** permite mover dinero al instante (vs. 2-3 días internacional) para cubrir una tarjeta que falla al pagar Meta. *(Aug 30.)*
 
 **Pagos de Shopify y financiación:**
 - **Acelerar Shopify Payments:** contactar soporte alegando tiempos de entrega correctos + tracking. Shopify retiene más si el tránsito medio es largo (+20 días) → entregar rápido libera antes. La transición personal → LLC suele ser especialmente lenta (**confirmado por Adam**: "a mí me tardaron tela en soltar"). *(Aug 26.)*
@@ -267,6 +300,8 @@ Motivado por el caso de Dani (2 cuentas baneadas) y por una **pregunta directa d
 ## 28. Herramientas de IA y equipo
 
 - **Reparto de herramientas:** **ChatGPT/Manus** para diálogo/estrategia/mentalidad (Manus gratis por tiempo limitado); **Claude** para código, desarrollo, lectura de métricas/análisis técnico (pero "pesado" para charlar). Ger usa **Claude Code + extensión de Chrome** para rellenar formularios, importar colecciones y leer la pestaña en tiempo real ("me ha aumentado la productividad una locura"). Consejo: tratar a la IA "como un empleado" al que no dejas cuestionar instrucciones. *(Aug 19.)*
+- **⚠️ No uses Claude para interpretar métricas ni decidir estrategia de ads** — Ger es tajante: *"a Claude no le hagáis caso para nada para eso; es muy bueno para código, pero a veces se pega una fumada sin contexto"*. Para dialogar/interpretar campañas → **ChatGPT o Manus**; Claude **solo para código** (con instrucciones estrictas: "no me cuentes milongas"). *(Aug 30.)* *(Matiz propio: Claude sí ayuda si le das TODO el contexto — datos, objetivo, criterios — y supervisas; el aviso de Ger es contra usarlo "a ciegas".)*
+- **Copyright en creativos:** el mayor riesgo no es el copy agresivo (aunque los bots lo detectan fácil), sino la **música con copyright** — puede que no te tumben el anuncio de inmediato, pero es cuestión de tiempo (como los strikes de YouTube). Usa **voz y música generadas por IA** para evitar reclamaciones. *(Aug 30.)*
 - **App propia de Ger:** atención al cliente con IA para la Shopify App Store (gestiona reembolsos, cambios de talla, vigila tracking y dispara emails de prevención); en revisión con Shopify. También estudia **ScaleChart** (tablas de tallas automáticas). *(Aug 19 · Aug 26.)*
 - **Tema de tienda:** Ger prepara un tema genérico (basado en el suyo) para regalar antes de septiembre; alternativas: desarrollador (~100-200 USD) o hacerlo con **Claude Code** conectado a Shopify. *(Aug 9.)*
 - **Equipo:** editor de vídeo/creativo ("filmino") a 3-3,5 USD/h para sostener el volumen de creativos. *(Mayo 2025.)*
@@ -295,34 +330,44 @@ Núcleo de la formación ("Vision"):
 
 | Fecha | Título / fuente | Enlace | Temas clave |
 |---|---|---|---|
-| 2025-05 (aprox.) | Mentoría Germán Viventor — resumen estructurado (PDF) | [Drive](https://drive.google.com/file/d/1IerYV3dh_gcSkbieDLSrtsjR9R0lTa59/view) | Funnel/benchmarks, oferta+carrito (48 h), reglas de escalado, colección→CBO, píxel (50 conv), flow post-compra, volumen 4→5 cifras, filmino, IG de marca, competidores ocultos |
+| 2025-05 (aprox.) | Mentoría Germán Viventor — resumen (PDF) | [Drive](https://drive.google.com/file/d/1IerYV3dh_gcSkbieDLSrtsjR9R0lTa59/view) | Funnel/benchmarks, oferta+carrito (48 h), escalado, colección→CBO, píxel (50 conv), flow post-compra, volumen 4→5 cifras, filmino, IG de marca, competidores ocultos |
 | 2026-06-14 | Mentoría domingo 14 — notas (DOCX) | [Drive](https://drive.google.com/file/d/1uUlPzy6xom_ynCE4IZvzShI5NytLxKW3/view) | Mapa de mercados (Grecia, Polonia, Francia, Italia, Singapur, Japón), trending vs tradicional |
-| **2026-06-23** | **Llamada 1-1 con Ger (150 min)** | [Fathom](https://fathom.video/calls/721715810) | **Colecciones (AOV x3-5, 150 €/día, decisión a 50 €, funnel inverso), volumen validado, tacones como subnicho ganador, branding/CRO (quitar lupa, pop-up 60-90s, iconos pago), error de ROAS producto vs campaña, backend proactivo, Wop, objetivo "conversión a venta"** |
-| 2026-08-05 | Impromptu Zoom (154 min) | [Fathom](https://fathom.video/calls/774095094) | **Proveedor nuevo MD**, estructura anti-baneo de cuentas Meta (portfolio/píxel/split risk, Get2GetCookie), variante-color como producto independiente, regla de creativos al escalar, EE.UU. vs Canadá, divisa USD, caso Dani/mindset. **Preguntas de Adam: mercado con 3k, nombre LLC/IRF, divisa USD, estructura de cuentas** |
-| 2026-08-09 | Impromptu Zoom (139 min) | [Fathom](https://fathom.video/calls/777903662) | Regla 2 días beneficio/pérdida, checklist Q4 (LLC, bancos, redundancia), píxel por temporada, ~50 testeos antes de cambiar de mercado, mercados (IT/ES/Rumanía/Grecia/Israel/Japón), storytelling de tienda, **transición oficial al proveedor nuevo**, caso Esteban, phishing. CPC EE.UU. (cita de Adam) |
+| **2026-06-23** | **Llamada 1-1 con Ger (150 min)** | [Fathom](https://fathom.video/calls/721715810) | **Colecciones (AOV x3-5, 150 €/día, decisión a 50 €, funnel inverso), volumen validado, tacones como subnicho ganador, branding/CRO, error de ROAS producto vs campaña, backend proactivo, Wop, objetivo "conversión a venta"** |
+| 2026-08-05 | Impromptu Zoom (154 min) | [Fathom](https://fathom.video/calls/774095094) | **Proveedor nuevo MD**, estructura anti-baneo de cuentas Meta (portfolio/píxel/split risk, Get2GetCookie), variante-color como producto independiente, regla de creativos, EE.UU. vs Canadá, divisa USD, caso Dani/mindset. **Preguntas de Adam** |
+| 2026-08-09 | Impromptu Zoom (139 min) | [Fathom](https://fathom.video/calls/777903662) | Regla 2 días beneficio/pérdida, checklist Q4 (LLC, bancos, redundancia), píxel por temporada, ~50 testeos antes de cambiar de mercado, mercados (IT/ES/Rumanía/Grecia/Israel/Japón), storytelling, **transición oficial al proveedor nuevo**, caso Esteban, phishing |
 | 2026-08-16 | Impromptu Zoom (85 min) | [Fathom](https://fathom.video/share/FnfqJprc8xMVEN4vsxFUahexaBskB4eY) | Métricas de testeo, cadencia/diversificación, segmentación, escalado (saltos grandes), días de la semana, Winning Hunter, catálogo proveedor, zona horaria, CPC, arbitraje estacional (Australia), mindset |
-| 2026-08-19 | Impromptu Zoom (115 min) | [Fathom](https://fathom.video/calls/791209521) | **PayPal/Klarna prohibido**, mercados solo-tarjeta, **lanzar testeos 3-5 AM**, presupuesto 50 € vs 30 €, bundles no antes de validar, **"escalar desde el backend"**, email 72h anti-contracargo, herramientas IA, app de Ger, pricing ,20/,40 (Italia). **Adam: media buyer filipino para huso AU, permisos** |
-| 2026-08-26 | Impromptu Zoom (107 min) | [Fathom](https://fathom.video/calls/799883135) | Reutilizar cuenta UE / nueva para US, AOV US-AU 80$+, píxel nuevo al relanzar winner, Q4 maratón, WAP, tienda nueva+LLC, **WeTracker Connect**, fiscalidad internacional (183 días, Georgia/Dubái), Aliexpress Find Suppliers, ScaleChart, Grant Cardone. **Adam por chat: transición Shopify lenta, Real Estate** |
+| 2026-08-19 | Impromptu Zoom (115 min) | [Fathom](https://fathom.video/calls/791209521) | **PayPal/Klarna prohibido**, mercados solo-tarjeta, **lanzar testeos 3-5 AM**, presupuesto 50 € vs 30 €, bundles no antes de validar, **"escalar desde el backend"**, email 72h anti-contracargo, herramientas IA, app de Ger, pricing ,20/,40. **Adam: media buyer filipino** |
+| 2026-08-26 | Impromptu Zoom (107 min) | [Fathom](https://fathom.video/calls/799883135) | Reutilizar cuenta UE / nueva para US, AOV US-AU 80$+, píxel nuevo al relanzar winner, Q4 maratón, WAP, tienda nueva+LLC, **WeTracker Connect**, fiscalidad (183 días, Georgia/Dubái), Aliexpress Find Suppliers, ScaleChart, Grant Cardone. **Adam por chat** |
+| **2026-08-30 (parte 1)** | Impromptu Zoom (49 min) — se cortó a mitad | [Fathom](https://fathom.video/calls/803719742) | LLC (aportar capital, coste, fiscalidad 183 días), redundancia bancaria (Wise suspende, Slash/Mercury/Wise/Revolut), horario 3-5 AM (el porqué), atribución/WeTracker para ROAS, Q4 |
+| **2026-08-30 (parte 2)** | Impromptu Zoom (55 min) — reanudación | [Fathom](https://fathom.video/calls/803730322) | **Moda vs suplementos/branded (por dónde empezar)**, desescalar en vez de apagar, colecciones (10-15 productos, duplicar para tracking, 100€/10 creativos), portfolio+LLC, cannibalización, **"Claude solo para código"**, jerarquía de métricas, copyright música IA, evento presencial dic. **Adam por chat (winner confirmado)** |
 
 ### Action items abiertos de Adam
 
-**De la 1-1 (23 jun) — algunos ya superados por el tiempo, revisar cuáles siguen vigentes:**
+**De la 1-1 (23 jun) — revisar cuáles siguen vigentes:**
 1. Analizar los testeos por VENTA (no CTR/CPC) → Excel de bestsellers; lanzar **colecciones a 150 €/día** segmentadas por atributo.
 2. **Ennicharse 100%:** eliminar del catálogo todo lo que no sea tacones/sandalias.
-3. CRO: quitar lupa, configurar pop-up (60-90 s, no en colección/carrito), quitar Klarna, añadir iconos de pago en carrito, rehacer home.
+3. CRO: quitar lupa, configurar pop-up (60-90 s), quitar Klarna, añadir iconos de pago en carrito, rehacer home.
 4. **Corregir el cálculo de ROAS** a nivel de campaña (no de producto).
 5. Negociar con el proveedor descuentos por volumen y mejor packaging.
 
 **De agosto (vigentes para Q4):**
-6. **Lanzar test inicial en Australia** con el producto de verano, entrada nichada pero no cerrada; si no reacciona en 1-2 semanas, ampliar. Definir la **zona horaria AU** (la que cubra más población). *(Ver detalle operativo en el doc de socios.)*
+6. **Lanzar test inicial en Australia** con el producto de verano, entrada nichada pero no cerrada; si no reacciona en 1-2 semanas, ampliar. Definir la **zona horaria AU**.
 7. **Contactar a soporte de IRF** por el límite de 25 caracteres del nombre de la LLC y compartir la respuesta con Ger.
 8. **Cambiar la divisa de Meta Ads a USD** para que cuadre con los pagos de Shopify.
-9. **Enviar a Ger el contacto de WhatsApp** de su agente en MD para verificar.
-10. **Registrarse en el proveedor MD** (aunque no conecte la tienda) para acceder al catálogo de winners.
-11. Evaluar contratar un **media buyer filipino** (OnlineJobs.ph, permisos limitados) para gestionar el desfase horario con Australia.
+9. **Enviar a Ger el contacto de WhatsApp** de su agente en MD.
+10. **Registrarse en el proveedor MD** para acceder al catálogo de winners.
+11. Evaluar contratar un **media buyer filipino** (OnlineJobs.ph, permisos limitados) para el desfase horario con Australia.
 12. Preparar la **infraestructura Q4**: cuentas Meta calentadas + backup, tarjetas separadas por función, **WAP** activo como respaldo, seguir con la aprobación de Slash.
 13. Relanzar cualquier winner de temporada pasada con **píxel nuevo** (vía WeTracker Connect si migra de tienda).
 
+**Del 30 ago (recordatorios operativos):**
+14. **Instalar y usar WeTracker** para medir el ROAS real (no fiarte del panel de Meta por la pérdida de atribución con cookies rechazadas / compras diferidas).
+15. Al montar colecciones: **≤15 productos, duplicar las fichas** para trackear el canal, testear a **100 €/10 creativos** y enlazar la campaña a la colección.
+16. Ante una winner que cae tras escalar: **desescalar, no apagar**; no juzgar el día hasta las 24:00.
+17. Tener la **LLC + 2ª cuenta bancaria** (p. ej. Mercury además de Slash) listas antes del Q4; añadir la LLC al portfolio de Meta ya existente sin lanzar la verificación de empresa.
+18. En creativos: **música y voz por IA** (evitar copyright); usar Claude solo para código, no para interpretar métricas.
+19. Responder en Discord la **encuesta del evento presencial** de diciembre (si te interesa asistir).
+
 ---
 
-*Documento de síntesis de mentoría. Se irá ampliando con cada nueva llamada, agrupando lo nuevo bajo los temas existentes y añadiendo la fila correspondiente al registro. Complementa al documento maestro (`ECOM-MASTER-Estrategia-y-Operativa.md`) y contrasta con el de socios/peers (`ECOM-MASTER-Sintesis-Llamadas-Socios.md`) y el de branding (`ECOM-MASTER-Sintesis-Llamadas-Branded-Nortes.md`).*
+*Documento de síntesis de mentoría. Complementa al documento maestro (`ECOM-MASTER-Estrategia-y-Operativa.md`) y contrasta con el de socios (`ECOM-MASTER-Sintesis-Llamadas-Socios.md`) y el de branding (`ECOM-MASTER-Sintesis-Llamadas-Branded-Nortes.md`).*
