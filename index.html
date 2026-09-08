@@ -158,6 +158,62 @@ mark{background:var(--accent-soft);color:var(--accent-ink);padding:0 2px;border-
   .cc-btns{width:100%}
   .cc-btn{flex:1;justify-content:center}
 }
+/* ---------- asistente "Preguntar" (BYOK) ---------- */
+.ask-btn{width:auto;padding:0 12px;gap:6px;font-weight:700;font-size:13px;color:var(--accent-ink);background:var(--accent-soft);border-color:transparent}
+.ask-btn:hover{border-color:var(--accent)}
+.ask-scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:55}
+.ask-scrim.open{display:block}
+.ask{position:fixed;z-index:60;top:calc(var(--header-h) + 10px);right:16px;width:min(700px,calc(100vw - 32px));
+  max-height:calc(100vh - var(--header-h) - 26px);overflow:auto;background:var(--panel);border:1px solid var(--line);
+  border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.28);padding:14px 16px 18px}
+.ask-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.ask-title{flex:1;font-weight:800;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}
+.ask-settings{background:var(--panel-2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:12px;font-size:13px}
+.ask-settings label{display:block;font-weight:700;font-size:12px;color:var(--muted);margin:8px 0 4px}
+.ask-settings input,.ask-settings select{width:100%;padding:9px 11px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-size:14px;font-family:var(--sans);outline:none}
+.ask-settings input:focus,.ask-settings select:focus{border-color:var(--accent)}
+.ask-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.ask-ghost{padding:9px 13px;border-radius:11px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;font-family:var(--sans);font-weight:700;font-size:13px}
+.ask-ghost:hover{border-color:var(--accent)}
+.ask-keystate{font-size:12px;color:var(--muted)}
+.ask-warn{margin-top:12px;padding:10px 12px;background:var(--warn-bg);border-left:3px solid var(--warn);border-radius:0 10px 10px 0;font-size:12.5px;line-height:1.5}
+.ask-warn ul{margin:6px 0 0;padding-left:18px}
+.ask-warn li{margin:3px 0}
+.ask-form{display:flex;gap:8px;align-items:flex-end}
+.ask-form textarea{flex:1;resize:vertical;min-height:44px;max-height:160px;padding:10px 12px;border-radius:11px;border:1px solid var(--line);
+  background:var(--panel-2);color:var(--ink);font-size:15px;font-family:var(--sans);line-height:1.4;outline:none}
+.ask-form textarea:focus{border-color:var(--accent)}
+.ask-form .cc-btn{border:none;cursor:pointer;font-family:var(--sans)}
+.ask-form .cc-btn:disabled{opacity:.5;cursor:wait}
+.ask-out{margin-top:14px}
+.ask-q{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.ask-answer{font-size:14.5px;line-height:1.6;white-space:normal}
+.ask-answer p{margin:8px 0}
+.ask-answer ul,.ask-answer ol{margin:8px 0;padding-left:22px}
+.ask-answer li{margin:4px 0}
+.ask-answer code{font-family:var(--mono);font-size:.87em;background:var(--panel-2);padding:1px 5px;border-radius:5px;border:1px solid var(--line)}
+.ask-answer.busy::after{content:'▍';color:var(--accent);animation:askblink 1s steps(2) infinite}
+@keyframes askblink{to{opacity:0}}
+.ask-status{font-size:12.5px;color:var(--muted);margin-top:8px}
+.ask-err{margin-top:10px;padding:10px 12px;border-radius:10px;background:var(--warn-bg);border:1px solid var(--warn);color:var(--ink);font-size:13.5px}
+.ask-src{margin-top:14px;border-top:1px solid var(--line);padding-top:10px}
+.ask-src .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700;margin-bottom:6px}
+.ask-chips{display:flex;flex-wrap:wrap;gap:6px}
+.ask-chip{display:inline-flex;align-items:center;gap:6px;max-width:100%;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--panel-2);
+  color:var(--ink);font-size:12.5px;cursor:pointer;font-family:var(--sans);text-align:left;line-height:1.3}
+.ask-chip:hover{border-color:var(--accent)}
+.ask-chip.cited{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
+.ask-chip .d{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--muted);flex:none}
+.ask-chip.cited .d{color:var(--accent-ink)}
+.results .ask-hint{display:flex;gap:8px;align-items:center;padding:10px 12px;cursor:pointer;font-size:13px;color:var(--accent-ink);font-weight:700;border-top:1px solid var(--line)}
+.results .ask-hint:hover{background:var(--panel-2)}
+@media(max-width:640px){
+  .ask-btn{width:36px;padding:0}
+  .ask-btn .lbl{display:none}
+  .ask{top:var(--header-h);left:0;right:0;width:100%;max-height:calc(100vh - var(--header-h));border-radius:0;border-left:none;border-right:none;padding:12px 14px 20px}
+  .ask-form{flex-direction:column;align-items:stretch}
+  .ask-form .cc-btn{justify-content:center}
+}
 </style>
 </head>
 <body>
@@ -176,8 +232,45 @@ mark{background:var(--accent-soft);color:var(--accent-ink);padding:0 2px;border-
     <input id="q" type="search" placeholder="Buscar…" autocomplete="off">
     <div class="results" id="results"></div>
   </div>
+  <button class="iconbtn ask-btn" id="askBtn" aria-label="Preguntar a Claude" title="Preguntar a Claude sobre la biblioteca">✦<span class="lbl">Preguntar</span></button>
   <button class="iconbtn" id="themeBtn" aria-label="Tema" title="Cambiar tema">◐</button>
 </header>
+
+<!-- Asistente "Preguntar" (Opción A · BYOK): la key vive solo en localStorage de este navegador -->
+<div class="ask-scrim" id="askScrim"></div>
+<section class="ask" id="ask" hidden aria-label="Preguntar a la biblioteca">
+  <div class="ask-head">
+    <div class="ask-title">✦ Preguntar a la biblioteca <span class="badge" id="askModelBadge"></span></div>
+    <button class="iconbtn" id="askSettingsBtn" aria-label="Ajustes" title="Ajustes (API key y modelo)">⚙️</button>
+    <button class="iconbtn" id="askClose" aria-label="Cerrar" title="Cerrar">✕</button>
+  </div>
+  <div class="ask-settings" id="askSettings" hidden>
+    <div id="askSettingsMsg" class="ask-status" hidden></div>
+    <label for="askKey">API key de Anthropic</label>
+    <input id="askKey" type="password" placeholder="sk-ant-…" autocomplete="off" spellcheck="false">
+    <div class="ask-row">
+      <button type="button" class="cc-btn" id="askKeySave" style="border:none;cursor:pointer;font-family:var(--sans)">Guardar key</button>
+      <button type="button" class="ask-ghost" id="askKeyClear">Borrar key</button>
+      <span class="ask-keystate" id="askKeyState"></span>
+    </div>
+    <label for="askModel">Modelo</label>
+    <select id="askModel"></select>
+    <div class="ask-warn">
+      <strong>Uso personal — lee esto antes de guardar la key:</strong>
+      <ul>
+        <li>La key se guarda <strong>solo en este navegador</strong> (localStorage). Nunca la subas al repositorio.</li>
+        <li>La llamada sale <strong>directamente desde el navegador</strong>, así que la key queda expuesta a quien tenga acceso a esta sesión o dispositivo. El sitio es público: <strong>no la uses en un dispositivo compartido</strong>.</li>
+        <li>Cada pregunta es una llamada a la API (coste según modelo). El contexto se limita a las secciones más relevantes para acotar tokens.</li>
+        <li>Si más gente va a usar el asistente, migra a la <strong>Opción B (proxy serverless)</strong>: la key se queda en el servidor y la recuperación de contexto se reutiliza igual.</li>
+      </ul>
+    </div>
+  </div>
+  <form class="ask-form" id="askForm">
+    <textarea id="askQ" rows="2" placeholder="Ej.: ¿cuándo paso de ABO a CBO y cómo subo presupuesto sin matar la campaña?"></textarea>
+    <button type="submit" class="cc-btn" id="askSend">Preguntar</button>
+  </form>
+  <div class="ask-out" id="askOut"></div>
+</section>
 
 <div class="layout">
   <div class="scrim" id="scrim"></div>
@@ -1220,6 +1313,19 @@ mark{background:var(--accent-soft);color:var(--accent-ink);padding:0 2px;border-
 
 
 <script>
+/* ===== Asistente "Preguntar" (BYOK) — configuración editable ===== */
+const ASK_MODEL_DEFAULT = 'claude-haiku-4-5';   // modelo por defecto: pequeño y rápido. Se puede cambiar aquí o desde ⚙️.
+const ASK_MODELS = [
+  {id:'claude-haiku-4-5', label:'Haiku 4.5 · rápido y barato'},
+  {id:'claude-sonnet-5',  label:'Sonnet 5 · equilibrado'},
+  {id:'claude-opus-5',    label:'Opus 5 · máxima calidad'}
+];
+const ASK_TOPK = 8;                 // secciones de contexto por pregunta (acota tokens/coste)
+const ASK_MAX_TOKENS = 1024;
+const ASK_SECTION_CHARS = 1800;     // recorte por sección enviada como contexto
+const ASK_KEY_LS = 'bib-anthropic-key', ASK_MODEL_LS = 'bib-ask-model';
+const ASK_SYSTEM = 'Eres el tutor de esta biblioteca de e-commerce (mentorías de Ger, playbooks de Gonzalo, branding de Nortes). Responde SOLO con base en las secciones proporcionadas; si algo no está, dilo claramente. Español, concreto y didáctico. Cita las secciones por su título.';
+
 const DOCS = [{"key": "mentoria", "label": "Mentoría · Ger", "emoji": "🎓", "sub": "11 llamadas de Germán Aguilar (Viventor)"}, {"key": "socios", "label": "Socios · Gonzalo", "emoji": "🤝", "sub": "Intercambio de campo con Gonzalo Gomiz"}, {"key": "nortes", "label": "Branding · Nortes", "emoji": "🏷️", "sub": "Masterclass de marca de Álvaro Nortes"}, {"key": "playbooks", "label": "Playbooks · Gonzalo", "emoji": "📘", "sub": "Estructura de campañas Meta + creativos con IA"}];
 const INDEX = [{"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--ecom-master-sintesis-de-llamadas-de-mentoria", "level": "H1", "title": "ECOM MASTER — Síntesis de Llamadas de Mentoría"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--como-usar-este-documento", "level": "H2", "title": "Cómo usar este documento"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--a-testeo-y-conversion", "level": "H1", "title": "A. Testeo y conversión"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--1-leer-las-metricas-de-testeo-interes-venta", "level": "H2", "title": "1. Leer las métricas de testeo (interés ≠ venta)"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--2-optimizacion-de-oferta-y-carrito", "level": "H2", "title": "2. Optimización de oferta y carrito"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--3-cadencia-presupuesto-y-diversificacion-de-testeo", "level": "H2", "title": "3. Cadencia, presupuesto y diversificación de testeo"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--4-segmentacion", "level": "H2", "title": "4. Segmentación"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--5-bundles-y-promociones", "level": "H2", "title": "5. Bundles y promociones"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--b-estructura-de-campanas-escalado-y-pixel", "level": "H1", "title": "B. Estructura de campañas, escalado y píxel"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--6-colecciones-el-nucleo-del-escalado-horizontal-framework-de", "level": "H2", "title": "6. Colecciones: el núcleo del escalado horizontal (framework de la 1-1)"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--7-de-coleccion-a-cbo-individual-el-truco-infalible", "level": "H2", "title": "7. De colección a CBO individual (el truco \"infalible\")"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--8-escalado", "level": "H2", "title": "8. Escalado"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--9-pixel-y-optimizacion", "level": "H2", "title": "9. Píxel y optimización"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--10-estructura-anti-baneo-de-cuentas-de-meta-con-diagrama-en-", "level": "H2", "title": "10. Estructura anti-baneo de cuentas de Meta (con diagrama en pantalla)"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--11-dias-de-la-semana-y-ventana-horaria", "level": "H2", "title": "11. Días de la semana y ventana horaria"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--12-flow-post-compra-contracargos-y-metodos-de-pago", "level": "H2", "title": "12. Flow post-compra, contracargos y métodos de pago"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--13-volumen-validado-de-4-a-5-y-6-cifras", "level": "H2", "title": "13. Volumen validado: de 4 a 5 (y 6) cifras"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--c-busqueda-de-producto-proveedor-y-competencia", "level": "H1", "title": "C. Búsqueda de producto, proveedor y competencia"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--14-cambio-de-proveedor-el-nuevo-md-mutual-dropshipping", "level": "H2", "title": "14. 🔄 Cambio de proveedor: el nuevo \"MD\" (Mutual Dropshipping)"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--15-validacion-de-proveedor-y-precios", "level": "H2", "title": "15. Validación de proveedor y precios"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--16-winning-hunter-ingenieria-inversa", "level": "H2", "title": "16. Winning Hunter (ingeniería inversa)"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--17-productos-winner-variantes-y-estacionalidad", "level": "H2", "title": "17. Productos winner, variantes y estacionalidad"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--18-inteligencia-competitiva-competidores-que-se-ocultan", "level": "H2", "title": "18. Inteligencia competitiva (competidores que se ocultan)"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--18-bis-eleccion-de-nicho-moda-vs-suplementos-vs-branded-por-", "level": "H2", "title": "18-bis. Elección de nicho: moda vs suplementos vs branded (por dónde empezar)"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--18-ter-subnichos-y-variacion-creativa-modelo-apple-red-bull", "level": "H2", "title": "18-ter. Subnichos y variación creativa (modelo Apple / Red Bull)"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--d-mercados-expansion-y-estructura-q4", "level": "H1", "title": "D. Mercados, expansión y estructura Q4"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--19-mapa-de-mercados", "level": "H2", "title": "19. Mapa de mercados"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--20-entrada-a-eeuu-y-aov-por-mercado", "level": "H2", "title": "20. Entrada a EE.UU. y AOV por mercado"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--21-reutilizacion-de-cuentas-y-zona-horaria", "level": "H2", "title": "21. Reutilización de cuentas y zona horaria"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--22-arbitraje-estacional-la-jugada-de-adam-australia", "level": "H2", "title": "22. Arbitraje estacional — la jugada de Adam (Australia)"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--23-q4-infraestructura-llc-pagos-y-fiscalidad", "level": "H2", "title": "23. Q4: infraestructura, LLC, pagos y fiscalidad"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--23-bis-momentum-y-calendario-de-q4-septiembre-factura-octubr", "level": "H2", "title": "23-bis. Momentum y calendario de Q4 (septiembre factura, octubre escala)"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--e-operacion-tienda-marca-y-herramientas", "level": "H1", "title": "E. Operación, tienda, marca y herramientas"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--24-branding-y-experiencia-de-tienda", "level": "H2", "title": "24. Branding y experiencia de tienda"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--25-ux-cro-cambios-concretos-de-la-1-1", "level": "H2", "title": "25. UX / CRO — cambios concretos (de la 1-1)"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--26-precision-en-metricas-error-detectado-en-la-1-1", "level": "H2", "title": "26. Precisión en métricas (error detectado en la 1-1)"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--27-se-escala-desde-el-backend-mensaje-central", "level": "H2", "title": "27. \"Se escala desde el BACKEND\" (mensaje central)"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--28-herramientas-de-ia-y-equipo", "level": "H2", "title": "28. Herramientas de IA y equipo"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--28-bis-brandear-hacia-el-avatar-creativos-controversiales-y-", "level": "H2", "title": "28-bis. Brandear hacia el avatar, creativos controversiales y validación por likes"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--f-mindset-y-principios-transversales", "level": "H1", "title": "F. Mindset y principios transversales"}, {"doc": "mentoria", "label": "Mentoría · Ger", "id": "mentoria--anexo-registro-de-llamadas", "level": "H2", "title": "Anexo — Registro de llamadas"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--ecom-master-sintesis-de-llamadas-con-socios-peers", "level": "H1", "title": "ECOM MASTER — Síntesis de Llamadas con Socios / Peers"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--contexto-de-la-relacion", "level": "H2", "title": "Contexto de la relación"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--como-usar-este-documento", "level": "H2", "title": "Cómo usar este documento"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--1-estrategia-de-testeo-abo-no-cbo-metodologia-de-los-mentore", "level": "H2", "title": "1. ⭐ Estrategia de testeo ABO, no CBO (metodología de los mentores de Gonzalo)"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--2-segmentacion", "level": "H2", "title": "2. Segmentación"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--3-nicho-estrecho-vs-tienda-de-moda-amplia-enfocada-aug-17-la", "level": "H2", "title": "3. Nicho estrecho vs. tienda de moda amplia enfocada (Aug 17 · larga)"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--4-expansion-a-australia-arbitraje-estacional-jugada-de-adam", "level": "H2", "title": "4. Expansión a Australia — arbitraje estacional (jugada de Adam)"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--5-infraestructura-de-cuentas-para-q4-meta-pagos", "level": "H2", "title": "5. Infraestructura de cuentas para Q4 (Meta + pagos)"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--6-precios-y-margenes", "level": "H2", "title": "6. Precios y márgenes"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--7-publico-mayor-y-angulo-de-venta-comodidadortopedico", "level": "H2", "title": "7. Público mayor y ángulo de venta (comodidad/ortopédico)"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--8-nicho-vs-moda-creativos-copy-y-ecosistema-aprendizaje-de-g", "level": "H2", "title": "8. Nicho vs Moda — creativos, copy y ecosistema (aprendizaje de Gonzalo)"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--9-creativos-y-copy-aug-17-larga", "level": "H2", "title": "9. Creativos y copy (Aug 17 · larga)"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--10-estructura-de-tienda-ux-en-shopify-aug-17-larga", "level": "H2", "title": "10. Estructura de tienda / UX en Shopify (Aug 17 · larga)"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--11-investigacion-por-producto-e-ingenieria-inversa", "level": "H2", "title": "11. Investigación por producto e ingeniería inversa"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--12-fuentes-de-producto-y-de-competencia", "level": "H2", "title": "12. Fuentes de producto y de competencia"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--13-herramientas-y-automatizacion-con-ia", "level": "H2", "title": "13. Herramientas y automatización con IA"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--14-resenas-practica-antigua-frenada-por-claude-aug-17-larga", "level": "H2", "title": "14. Reseñas — práctica antigua frenada por Claude (Aug 17 · larga)"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--15-mentoria-propia-de-gonzalo-decision-de-posponer-aug-17-la", "level": "H2", "title": "15. Mentoría propia de Gonzalo — decisión de posponer (Aug 17 · larga)"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--16-contexto-de-la-comunidad-de-referencia-ger-nota-aug-17-la", "level": "H2", "title": "16. Contexto de la comunidad de referencia (Ger / \"Nota\") (Aug 17 · larga)"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--17-contraste-rapido-de-enfoques-para-decision-propia", "level": "H2", "title": "17. Contraste rápido de enfoques (para decisión propia)"}, {"doc": "socios", "label": "Socios · Gonzalo", "id": "socios--anexo-registro-de-llamadas", "level": "H2", "title": "Anexo — Registro de llamadas"}, {"doc": "nortes", "label": "Branding · Nortes", "id": "nortes--ecom-master-sintesis-de-llamadas-de-branding-alvaro-nortes", "level": "H1", "title": "ECOM MASTER — Síntesis de Llamadas de Branding (Álvaro Nortes)"}, {"doc": "nortes", "label": "Branding · Nortes", "id": "nortes--quien-es-alvaro-nortes-y-por-que-su-enfoque-importa-para-ada", "level": "H2", "title": "Quién es Álvaro Nortes (y por qué su enfoque importa para Adam)"}, {"doc": "nortes", "label": "Branding · Nortes", "id": "nortes--como-usar-este-documento", "level": "H2", "title": "Cómo usar este documento"}, {"doc": "nortes", "label": "Branding · Nortes", "id": "nortes--a-rentabilidad-optimizar-para-el-profit-no-para-la-facturaci", "level": "H1", "title": "A. Rentabilidad: optimizar para el profit, no para la facturación"}, {"doc": "nortes", "label": "Branding · Nortes", "id": "nortes--b-investigacion-de-mercado-y-calcar-al-lider", "level": "H1", "title": "B. Investigación de mercado y \"calcar\" al líder"}, {"doc": "nortes", "label": "Branding · Nortes", "id": "nortes--c-expansion-de-mercados-poco-explotados", "level": "H1", "title": "C. Expansión de mercados (poco explotados)"}, {"doc": "nortes", "label": "Branding · Nortes", "id": "nortes--d-estrategia-de-producto-colecciones-y-fashion-vs-branded", "level": "H1", "title": "D. Estrategia de producto: colecciones y \"fashion vs branded\""}, {"doc": "nortes", "label": "Branding · Nortes", "id": "nortes--e-icp-avatar-y-angulos-pregunta-directa-de-adam", "level": "H1", "title": "E. ICP / Avatar y ángulos — pregunta directa de ADAM ⭐"}, {"doc": "nortes", "label": "Branding · Nortes", "id": "nortes--f-funnel-y-branding-puro-niveles-de-consciencia-segunda-preg", "level": "H1", "title": "F. Funnel y branding puro — niveles de consciencia (segunda pregunta de ADAM) ⭐⭐"}, {"doc": "nortes", "label": "Branding · Nortes", "id": "nortes--g-estructura-de-campanas-y-testing-creativo-a-volumen", "level": "H1", "title": "G. Estructura de campañas y testing creativo a volumen"}, {"doc": "nortes", "label": "Branding · Nortes", "id": "nortes--h-backend-operaciones-escalar-el-backend-antes-que-el-fronte", "level": "H1", "title": "H. Backend / operaciones — escalar el backend ANTES que el frontend"}, {"doc": "nortes", "label": "Branding · Nortes", "id": "nortes--i-finanzas-tarjetas-llc-y-procesador-de-pagos-pregunta-de-ad", "level": "H1", "title": "I. Finanzas: tarjetas, LLC y procesador de pagos — pregunta de ADAM ⭐"}, {"doc": "nortes", "label": "Branding · Nortes", "id": "nortes--j-frases-citas-clave-de-nortes", "level": "H1", "title": "J. Frases / citas clave de Nortes"}, {"doc": "nortes", "label": "Branding · Nortes", "id": "nortes--anexo-registro-de-llamadas", "level": "H2", "title": "Anexo — Registro de llamadas"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--playbooks-de-gonzalo-meta-ads-y-creativos", "level": "H1", "title": "Playbooks de Gonzalo — Meta Ads y creativos"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--como-usar-este-documento", "level": "H2", "title": "Cómo usar este documento"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--estructura-de-campanas-en-meta-ads", "level": "H1", "title": "Estructura de campañas en Meta Ads"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--la-regla-base-un-producto-una-campana-50-dia", "level": "H2", "title": "La regla base: un producto, una campaña, 50 €/día"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--creativos-del-test-2-videos-2-imagenes", "level": "H2", "title": "Creativos del test: 2 vídeos + 2 imágenes"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--vocabulario-campana-conjunto-y-anuncio", "level": "H2", "title": "Vocabulario: campaña, conjunto y anuncio"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--que-es-una-abo-ad-set-budget-optimization", "level": "H2", "title": "Qué es una ABO (Ad Set Budget Optimization)"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--que-es-una-cbo-campaign-budget-optimization", "level": "H2", "title": "Qué es una CBO (Campaign Budget Optimization)"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--abo-frente-a-cbo", "level": "H2", "title": "ABO frente a CBO"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--por-que-empezamos-siempre-con-una-abo", "level": "H2", "title": "Por qué empezamos siempre con una ABO"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--asi-queda-montada-la-abo", "level": "H2", "title": "Así queda montada la ABO"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--el-error-de-arrancar-con-cbo-en-el-test", "level": "H2", "title": "El error de arrancar con CBO en el test"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--cuando-saltar-a-la-cbo", "level": "H2", "title": "Cuándo saltar a la CBO"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--dos-formas-de-escalar-vertical-y-horizontal", "level": "H2", "title": "Dos formas de escalar: vertical y horizontal"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--escalado-vertical-subir-presupuesto-sin-matar-la-campana", "level": "H2", "title": "Escalado vertical: subir presupuesto sin matar la campaña"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--la-regla-del-80-20-creativos-del-vertical", "level": "H2", "title": "La regla del 80/20 (creativos del vertical)"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--escalado-horizontal-la-campana-laboratorio", "level": "H2", "title": "Escalado horizontal: la campaña laboratorio"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--la-escalera-de-presupuesto", "level": "H2", "title": "La escalera de presupuesto"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--la-regla-de-los-dos-dias", "level": "H2", "title": "La regla de los dos días"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--colecciones-el-disparador-el-producto-toca-techo", "level": "H2", "title": "Colecciones — el disparador: el producto toca techo"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--seleccion-de-los-12-productos-de-la-coleccion", "level": "H2", "title": "Selección de los ~12 productos de la colección"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--montar-la-coleccion-en-shopify", "level": "H2", "title": "Montar la colección en Shopify"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--la-campana-de-coleccion", "level": "H2", "title": "La campaña de colección"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--la-regla-del-70-30-creativos-de-la-coleccion", "level": "H2", "title": "La regla del 70/30 (creativos de la colección)"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--el-sistema-en-una-pagina-checklist", "level": "H2", "title": "El sistema en una página (checklist)"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--creacion-de-creativos-guia-de-produccion-ia", "level": "H1", "title": "Creación de creativos — guía de producción (IA)"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--vision-general-el-flujo-de-8-pasos", "level": "H2", "title": "Visión general: el flujo de 8 pasos"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--paso-01-la-imagen-limpia-del-producto", "level": "H2", "title": "Paso 01 · La imagen limpia del producto"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--paso-01-el-outfit-completo-tambien-vende", "level": "H2", "title": "Paso 01 · El outfit completo también vende"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--paso-01-el-fondo-cuatro-caminos", "level": "H2", "title": "Paso 01 · El fondo: cuatro caminos"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--paso-02-analisis-del-avatar-a-quien-le-vendemos", "level": "H2", "title": "Paso 02 · Análisis del avatar: a quién le vendemos"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--paso-03-replicar-o-superar-la-modelo-de-la-competencia", "level": "H2", "title": "Paso 03 · Replicar o superar la modelo de la competencia"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--paso-04-creamos-la-imagen-de-referencia-con-ia", "level": "H2", "title": "Paso 04 · Creamos la imagen de referencia con IA"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--paso-05-el-prompt-maestro-pedirlo-todo", "level": "H2", "title": "Paso 05 · El prompt maestro: pedirlo todo"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--paso-06-de-una-imagen-a-un-banco-de-planos", "level": "H2", "title": "Paso 06 · De una imagen a un banco de planos"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--paso-06-que-frames-pedir-segun-el-producto", "level": "H2", "title": "Paso 06 · Qué frames pedir según el producto"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--paso-07-un-video-por-cada-frame", "level": "H2", "title": "Paso 07 · Un vídeo por cada frame"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--paso-08-montaje-en-capcut", "level": "H2", "title": "Paso 08 · Montaje en CapCut"}, {"doc": "playbooks", "label": "Playbooks · Gonzalo", "id": "playbooks--checklist-antes-de-lanzar-el-creativo", "level": "H2", "title": "Checklist antes de lanzar el creativo"}];
 const CALLS = [{"id": "mayo2025", "doc": "mentoria", "group": "Mentoría · Ger", "date": "Mayo 2025", "title": "Mentoría Germán (resumen)", "dur": "PDF", "source": "Drive", "url": "https://drive.google.com/file/d/1IerYV3dh_gcSkbieDLSrtsjR9R0lTa59/view"}, {"id": "jun14", "doc": "mentoria", "group": "Mentoría · Ger", "date": "14 jun 2026", "title": "Mentoría domingo 14", "dur": "notas", "source": "Drive", "url": "https://drive.google.com/file/d/1uUlPzy6xom_ynCE4IZvzShI5NytLxKW3/view"}, {"id": "jun23", "doc": "mentoria", "group": "Mentoría · Ger", "date": "23 jun 2026", "title": "Llamada 1-1 con Ger", "dur": "150 min", "source": "Fathom", "url": "https://fathom.video/calls/721715810"}, {"id": "ago05", "doc": "mentoria", "group": "Mentoría · Ger", "date": "5 ago 2026", "title": "Mentoría grupal", "dur": "154 min", "source": "Fathom", "url": "https://fathom.video/calls/774095094"}, {"id": "ago09", "doc": "mentoria", "group": "Mentoría · Ger", "date": "9 ago 2026", "title": "Mentoría grupal", "dur": "139 min", "source": "Fathom", "url": "https://fathom.video/calls/777903662"}, {"id": "ago16", "doc": "mentoria", "group": "Mentoría · Ger", "date": "16 ago 2026", "title": "Mentoría grupal", "dur": "85 min", "source": "Fathom", "url": "https://fathom.video/share/FnfqJprc8xMVEN4vsxFUahexaBskB4eY"}, {"id": "ago19", "doc": "mentoria", "group": "Mentoría · Ger", "date": "19 ago 2026", "title": "Mentoría grupal", "dur": "115 min", "source": "Fathom", "url": "https://fathom.video/calls/791209521"}, {"id": "ago26", "doc": "mentoria", "group": "Mentoría · Ger", "date": "26 ago 2026", "title": "Mentoría grupal", "dur": "107 min", "source": "Fathom", "url": "https://fathom.video/calls/799883135"}, {"id": "ago30", "doc": "mentoria", "group": "Mentoría · Ger", "date": "30 ago 2026", "title": "Mentoría grupal (2 partes)", "dur": "49+55 min", "source": "Fathom", "url": "https://fathom.video/calls/803719742", "parts": [{"label": "Parte 1 · 49 min", "url": "https://fathom.video/calls/803719742"}, {"label": "Parte 2 · 55 min", "url": "https://fathom.video/calls/803730322"}]}, {"id": "sep02", "doc": "mentoria", "group": "Mentoría · Ger", "date": "2 sep 2026", "title": "Mentoría grupal", "dur": "118 min", "source": "Fathom", "url": "https://fathom.video/share/AkYeee4SVGBLFzbYU1gx7NXhkYksEhPp"}, {"id": "sep06", "doc": "mentoria", "group": "Mentoría · Ger", "date": "6 sep 2026", "title": "Mentoría grupal", "dur": "106 min", "source": "Fathom", "url": "https://fathom.video/share/SK2B_FeGXrxaDN_qUWsJV1mx8yusHBAU"}, {"id": "ago17a", "doc": "socios", "group": "Socios · Gonzalo", "date": "17 ago 2026", "title": "Gonzalo — llamada corta", "dur": "43 min", "source": "Fathom", "url": "https://fathom.video/share/xbB75Hh66NJkx4yh7aZKCqhwJPVvXhhC"}, {"id": "ago17b", "doc": "socios", "group": "Socios · Gonzalo", "date": "17 ago 2026", "title": "Gonzalo — llamada larga", "dur": "182 min", "source": "Fathom", "url": "https://fathom.video/calls/787715192"}, {"id": "jul11", "doc": "nortes", "group": "Branding · Nortes", "date": "11 jul 2026", "title": "Masterclass Álvaro Nortes", "dur": "98 min", "source": "Fathom", "url": "https://fathom.video/calls/743427696"}];
@@ -1502,12 +1608,16 @@ function runSearch(){
   if(!term){results.classList.remove('open');results.innerHTML='';curResults=[];return;}
   const words=queryWords(term);
   curResults=searchSections(term,40);
-  if(!curResults.length){results.innerHTML='<div class="empty">Sin coincidencias en títulos ni texto. Prueba otra palabra clave.</div>';results.classList.add('open');return;}
+  const askHint='<div class="ask-hint" id="askHint">✦ Preguntar a Claude: «'+escHtml(term)+'»</div>';
+  if(!curResults.length){results.innerHTML='<div class="empty">Sin coincidencias en títulos ni texto. Prueba otra palabra clave.</div>'+askHint;results.classList.add('open');bindAskHint(term);return;}
   results.innerHTML='<div class="cnt">'+curResults.length+(curResults.length===40?'+':'')+' secciones</div>'+
     curResults.map((r,idx)=>'<div class="r" data-i="'+idx+'"><div class="d">'+escHtml(r.label)+'</div><div class="t">'+hlNorm(r.title,words)+'</div><div class="s">'+hlNorm(snippet(r,words),words)+'</div></div>').join('');
+  results.innerHTML+=askHint;
   results.classList.add('open'); hiIdx=-1;
   results.querySelectorAll('.r').forEach(r=>r.onclick=()=>go(curResults[+r.dataset.i]));
+  bindAskHint(term);
 }
+function bindAskHint(term){ const h=document.getElementById('askHint'); if(h) h.onclick=()=>{results.classList.remove('open');q.value='';curResults=[];openAsk(term,true);}; }
 function go(r){results.classList.remove('open');q.value='';curResults=[];selectDoc(r.doc,r.id.split('--')[1]);}
 q.placeholder='Buscar en los '+DOCS.length+' documentos…';
 q.addEventListener('input',runSearch);
@@ -1522,6 +1632,156 @@ q.addEventListener('keydown',e=>{
   results.querySelectorAll('.r').forEach((r,i)=>{r.classList.toggle('hi',i===hiIdx);if(i===hiIdx)r.scrollIntoView({block:'nearest'});});
 });
 document.addEventListener('click',e=>{if(!e.target.closest('.search'))results.classList.remove('open');});
+
+/* ---------- asistente "Preguntar" (Opción A · BYOK) ----------
+   RAG local: retrieveSections() saca el top-K del índice SECTIONS y se lo manda a la
+   API de Anthropic desde el navegador con la key guardada en localStorage. Sin backend. */
+const ask=el('#ask'), askScrim=el('#askScrim'), askQ=el('#askQ'), askOut=el('#askOut'), askSend=el('#askSend'),
+      askSettings=el('#askSettings'), askKey=el('#askKey'), askKeyState=el('#askKeyState'), askModelSel=el('#askModel'),
+      askModelBadge=el('#askModelBadge'), askSettingsMsg=el('#askSettingsMsg');
+let askAbort=null;
+function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+function lsDel(k){try{localStorage.removeItem(k);}catch(e){}}
+function askGetKey(){return (lsGet(ASK_KEY_LS)||'').trim();}
+function askGetModel(){const m=lsGet(ASK_MODEL_LS); return (m&&ASK_MODELS.some(x=>x.id===m))?m:ASK_MODEL_DEFAULT;}
+function askRefreshState(){
+  const k=askGetKey();
+  askKeyState.textContent=k?('Key guardada (…'+k.slice(-4)+')'):'Sin key guardada';
+  askModelBadge.textContent=(ASK_MODELS.find(m=>m.id===askGetModel())||{}).label.split(' · ')[0];
+  askModelSel.value=askGetModel();
+}
+ASK_MODELS.forEach(m=>{const o=document.createElement('option');o.value=m.id;o.textContent=m.label;askModelSel.appendChild(o);});
+askModelSel.onchange=()=>{lsSet(ASK_MODEL_LS,askModelSel.value);askRefreshState();};
+el('#askKeySave').onclick=()=>{
+  const v=askKey.value.trim();
+  if(!v){askShowSettings('Pega una API key antes de guardar.');return;}
+  lsSet(ASK_KEY_LS,v); askKey.value=''; askRefreshState(); askShowSettings('Key guardada en este navegador.'); 
+};
+el('#askKeyClear').onclick=()=>{lsDel(ASK_KEY_LS);askKey.value='';askRefreshState();askShowSettings('Key borrada de este navegador.');};
+function askShowSettings(msg){
+  askSettings.hidden=false;
+  askSettingsMsg.hidden=!msg; askSettingsMsg.textContent=msg||'';
+  if(!askGetKey()) setTimeout(()=>askKey.focus(),30);
+}
+el('#askSettingsBtn').onclick=()=>{ if(askSettings.hidden) askShowSettings(''); else askSettings.hidden=true; };
+function openAsk(prefill,autoFocus){
+  askRefreshState();
+  ask.hidden=false; askScrim.classList.add('open'); closeSidebar();
+  if(prefill!=null) askQ.value=prefill;
+  if(!askGetKey()) askShowSettings('Para preguntar necesitas guardar tu API key de Anthropic (solo se guarda en este navegador).');
+  else if(autoFocus!==false) setTimeout(()=>askQ.focus(),30);
+}
+function closeAsk(){ ask.hidden=true; askScrim.classList.remove('open'); if(askAbort){askAbort.abort();askAbort=null;} }
+el('#askBtn').onclick=()=>ask.hidden?openAsk(null,true):closeAsk();
+el('#askClose').onclick=closeAsk; askScrim.onclick=closeAsk;
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!ask.hidden) closeAsk(); });
+askQ.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();el('#askForm').requestSubmit();} });
+el('#askForm').onsubmit=e=>{e.preventDefault();askRun(askQ.value.trim());};
+
+/* markdown mínimo (negrita, código, listas, títulos) sobre texto ya escapado */
+function mdLite(text){
+  const inline=t=>escHtml(t).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/`([^`]+)`/g,'<code>$1</code>');
+  const lines=text.split(/\r?\n/); let html='',list=null,para=[];
+  const flushP=()=>{ if(para.length){html+='<p>'+para.map(inline).join('<br>')+'</p>';para=[];} };
+  const flushL=()=>{ if(list){html+='</'+list+'>';list=null;} };
+  for(const raw of lines){
+    const l=raw.trimEnd();
+    let m;
+    if((m=l.match(/^\s*(?:[-*•]|\d+[.)])\s+(.*)$/))){ flushP(); const t=/^\s*\d/.test(l)?'ol':'ul'; if(list!==t){flushL();html+='<'+t+'>';list=t;} html+='<li>'+inline(m[1])+'</li>'; continue; }
+    flushL();
+    if((m=l.match(/^#{1,4}\s+(.*)$/))){ flushP(); html+='<p><strong>'+inline(m[1])+'</strong></p>'; continue; }
+    if(!l.trim()){ flushP(); continue; }
+    para.push(l);
+  }
+  flushP(); flushL(); return html;
+}
+function askError(msg,openSettings){
+  const d=document.createElement('div'); d.className='ask-err'; d.textContent=msg; askOut.appendChild(d);
+  if(openSettings) askShowSettings('');
+}
+function askRenderSources(secs,answerText){
+  const n=norm(answerText||'');
+  const cited=new Set(secs.filter(s=>{const t=s.ntitle.replace(/[^a-z0-9ñ ]/g,' ').replace(/\s+/g,' ').trim(); const probe=t.length>36?t.slice(0,36):t; return probe.length>8 && n.replace(/[^a-z0-9ñ ]/g,' ').replace(/\s+/g,' ').includes(probe);}).map(s=>s.id));
+  const wrap=document.createElement('div'); wrap.className='ask-src';
+  wrap.innerHTML='<div class="lbl">'+(cited.size?'Fuentes citadas y consultadas':'Secciones consultadas')+'</div><div class="ask-chips"></div>';
+  const box=wrap.querySelector('.ask-chips');
+  [...secs].sort((a,b)=>(cited.has(b.id)?1:0)-(cited.has(a.id)?1:0)).forEach(s=>{
+    const b=document.createElement('button'); b.type='button'; b.className='ask-chip'+(cited.has(s.id)?' cited':'');
+    b.innerHTML='<span class="d">'+escHtml(s.label)+'</span><span>'+(cited.has(s.id)?'✓ ':'')+escHtml(s.title)+'</span>';
+    b.onclick=()=>{closeAsk();selectDoc(s.doc,s.id.split('--')[1]);};
+    box.appendChild(b);
+  });
+  askOut.appendChild(wrap);
+}
+async function askRun(question){
+  if(!question) return;
+  const key=askGetKey();
+  if(!key){askShowSettings('Guarda tu API key de Anthropic para poder preguntar.');return;}
+  askSettings.hidden=true;
+  const secs=retrieveSections(question,ASK_TOPK);
+  askOut.innerHTML='<div class="ask-q">Pregunta</div><p style="margin:0 0 10px">'+escHtml(question)+'</p><div class="ask-q">Respuesta</div>';
+  if(!secs.length){askError('No encuentro secciones relacionadas con esa pregunta en la biblioteca. Prueba con otras palabras (producto, campaña, creativo, precio…).');return;}
+  const ans=document.createElement('div'); ans.className='ask-answer busy'; askOut.appendChild(ans);
+  const status=document.createElement('div'); status.className='ask-status'; status.textContent='Consultando '+secs.length+' secciones con '+askGetModel()+'…'; askOut.appendChild(status);
+  const context=secs.map((s,i)=>'['+(i+1)+'] '+s.label+' › '+s.title+'\n'+s.text.slice(0,ASK_SECTION_CHARS)).join('\n\n');
+  const model=askGetModel();
+  const body={model, max_tokens:ASK_MAX_TOKENS, stream:true, system:ASK_SYSTEM,
+    messages:[{role:'user', content:'Pregunta: '+question+'\n\nSecciones de la biblioteca (responde solo con esto):\n\n'+context}]};
+  if(!/haiku/.test(model)) body.output_config={effort:'low'}; // modelos con razonamiento adaptativo: respuesta corta y barata
+  if(askAbort) askAbort.abort();
+  askAbort=new AbortController();
+  askSend.disabled=true;
+  let text='', stop=null;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST', signal:askAbort.signal,
+      headers:{'x-api-key':key,'anthropic-version':'2023-06-01','content-type':'application/json',
+               'anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify(body)
+    });
+    if(!res.ok){
+      let msg=''; try{const j=await res.json(); msg=(j.error&&j.error.message)||'';}catch(e){}
+      ans.remove(); status.remove();
+      if(res.status===401) askError('API key inválida o revocada (401). Revísala en ⚙️ Ajustes.'+(msg?' — '+msg:''),true);
+      else if(res.status===403) askError('Sin permiso para usar este modelo o la API (403).'+(msg?' — '+msg:''),true);
+      else if(res.status===429) askError('Límite de uso alcanzado (429). Espera un momento y vuelve a intentarlo.'+(msg?' — '+msg:''));
+      else if(res.status===400||res.status===404) askError('La API rechazó la petición ('+res.status+'). '+(msg||'Revisa el modelo seleccionado en ⚙️.'),false);
+      else askError('Error de la API ('+res.status+'). '+(msg||'Inténtalo de nuevo en unos segundos.'));
+      return;
+    }
+    if(res.body && res.body.getReader){
+      const reader=res.body.getReader(), dec=new TextDecoder(); let buf='';
+      while(true){
+        const {done,value}=await reader.read(); if(done) break;
+        buf+=dec.decode(value,{stream:true});
+        const parts=buf.split('\n'); buf=parts.pop();
+        for(const line of parts){
+          if(!line.startsWith('data:')) continue;
+          let ev; try{ev=JSON.parse(line.slice(5).trim());}catch(e){continue;}
+          if(ev.type==='content_block_delta' && ev.delta && ev.delta.type==='text_delta'){ text+=ev.delta.text; ans.innerHTML=mdLite(text); }
+          else if(ev.type==='message_delta' && ev.delta && ev.delta.stop_reason){ stop=ev.delta.stop_reason; }
+          else if(ev.type==='error'){ throw new Error((ev.error&&ev.error.message)||'error de streaming'); }
+        }
+      }
+    } else {
+      const j=await res.json(); text=(j.content||[]).filter(b=>b.type==='text').map(b=>b.text).join(''); stop=j.stop_reason; ans.innerHTML=mdLite(text);
+    }
+    ans.classList.remove('busy');
+    if(!text) askError('El modelo no devolvió texto'+(stop?' (motivo: '+stop+')':'')+'.');
+    if(stop==='max_tokens') status.textContent='Respuesta cortada por longitud (max_tokens='+ASK_MAX_TOKENS+').';
+    else if(stop==='refusal') status.textContent='El modelo declinó responder a esta pregunta.';
+    else status.remove();
+    askRenderSources(secs,text);
+  }catch(err){
+    ans.classList.remove('busy'); status.remove();
+    if(err.name==='AbortError'){ if(!text) ans.remove(); return; }
+    askError('No se pudo contactar con la API (red bloqueada, sin conexión o CORS). '+(err.message||''));
+  }finally{
+    askSend.disabled=false; askAbort=null;
+  }
+}
+askRefreshState();
 
 /* ---------- theme ---------- */
 const themeBtn=el('#themeBtn');
