@@ -49,7 +49,7 @@ header{position:sticky;top:0;z-index:30;height:var(--header-h);display:flex;alig
 .results .r{display:block;padding:9px 12px;border-bottom:1px solid var(--line);cursor:pointer;font-size:13px}
 .results .r:last-child{border-bottom:none}
 .results .r:hover,.results .r.hi{background:var(--panel-2)}
-.results .r .d{font-size:11px;color:var(--accent-ink);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+.results .r .d{font-size:11px;color:var(--accent-ink);font-weight:600;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .results .r .t{color:var(--ink);margin-top:2px}
 .results .s{color:var(--muted);font-size:12px;margin-top:3px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .results .cnt{padding:7px 12px;font-size:11px;color:var(--muted);border-bottom:1px solid var(--line);text-transform:uppercase;letter-spacing:.4px;font-weight:700}
@@ -141,6 +141,7 @@ mark{background:var(--accent-soft);color:var(--accent-ink);padding:0 2px;border-
   main{padding:22px 18px 100px}
   .search{max-width:none;min-width:200px}
   .brand{flex:0 1 auto}
+  .results{position:fixed;left:8px;right:8px;top:calc(var(--header-h) + 4px);max-height:min(60vh,calc(100vh - var(--header-h) - 16px))}
 }
 /* móvil: cabecera en dos filas para que el buscador sea utilizable */
 @media(max-width:640px){
@@ -150,7 +151,6 @@ mark{background:var(--accent-soft);color:var(--accent-ink);padding:0 2px;border-
   .spacer{display:none}
   .search{order:10;flex:none;width:100%}
   .search input{font-size:16px;padding:10px 12px 10px 36px} /* 16px evita el zoom automático de iOS */
-  .results{max-height:calc(100vh - var(--header-h) - 24px)}
   main{padding:18px 14px 90px}
   .content h1{font-size:22px}
   .content h2{font-size:18px}
@@ -1523,9 +1523,13 @@ window.addEventListener('scroll',()=>{
 });
 
 /* ---------- search: índice full-text de secciones (Bloque 1) ----------
-   SECTIONS se construye leyendo TODAS las <template> de DOCS: cada H1/H2 abre una
-   sección y acumula el texto hasta el siguiente encabezado. Sirve al buscador y
-   a la recuperación de contexto del asistente (retrieveSections). */
+   SECTIONS se construye en carga leyendo TODAS las <template>: cada H1/H2/H3 con id
+   abre una sección cuyo texto llega hasta el siguiente encabezado del mismo nivel o
+   superior; guarda breadcrumb (H1 › H2), texto normalizado y título normalizado.
+   Scoring por token: 8·título + 4·breadcrumb + 1·cuerpo, bonus de cobertura
+   (varios tokens en la misma sección) y de frase exacta. Sinónimos del vocabulario
+   de Adam (SYN) y tolerancia a erratas (distancia 1 en tokens ≥5 letras).
+   Sirve al buscador y a la recuperación de contexto del asistente. */
 function normChar(ch){
   const d=ch.normalize('NFD');
   return (d.charCodeAt(0)>=0x300 && d.charCodeAt(0)<=0x36f)?ch:d[0]; // 1 char -> 1 char (offsets alineados)
@@ -1536,70 +1540,104 @@ const SECTIONS=[];
 (function buildSections(){
   DOCS.forEach(d=>{
     const tpl=document.getElementById('tpl-'+d.key); if(!tpl) return;
-    const box=document.createElement('div'); box.innerHTML=tpl.innerHTML;
-    let cur=null;
-    const push=()=>{ if(cur){ cur.text=cur.text.replace(/\s+/g,' ').trim(); cur.norm=norm(cur.text); cur.ntitle=norm(cur.title); SECTIONS.push(cur);} };
-    for(const node of box.children){
-      if((node.tagName==='H1'||node.tagName==='H2') && node.id){
-        push(); cur={doc:d.key,label:d.label,id:node.id,level:node.tagName,title:node.textContent.trim(),text:''};
-      } else if(cur){ cur.text+=' '+node.textContent; }
+    const open={}; // secciones abiertas por nivel (1..3)
+    const close=sec=>{ sec.text=sec.text.replace(/\s+/g,' ').trim(); sec.norm=norm(sec.text); sec.ntitle=norm(sec.title); sec.ncrumb=norm(sec.crumb);
+      sec.lenFactor=sec.text.length>2000?Math.pow(2000/sec.text.length,0.6):1; // secciones muy largas (anexos) no dominan solo por volumen
+      SECTIONS.push(sec); };
+    for(const node of tpl.content.children){
+      const m=/^H([123])$/.exec(node.tagName);
+      if(m && node.id){
+        const lv=+m[1];
+        for(let l=3;l>=lv;l--){ if(open[l]){close(open[l]);delete open[l];} }
+        const parent=lv>1?(open[lv-1]||open[1]):null;
+        open[lv]={doc:d.key,label:d.label,id:node.id,level:node.tagName,title:node.textContent.trim(),
+                  crumb:parent?parent.title:'', text:''};
+      } else {
+        for(const l in open) open[l].text+=' '+node.textContent;
+      }
     }
-    push();
+    for(let l=3;l>=1;l--){ if(open[l]) close(open[l]); }
   });
 })();
-const DF=new Map(); // frecuencia de documento por término (para ponderar)
-SECTIONS.forEach(sec=>{ new Set(tokens(sec.title+' '+sec.text)).forEach(t=>DF.set(t,(DF.get(t)||0)+1)); });
+/* vocabulario del corpus (para tolerancia a erratas) */
+const VOCAB=new Set(); SECTIONS.forEach(sec=>tokens(sec.title+' '+sec.text).forEach(t=>VOCAB.add(t)));
+/* sinónimos / alias (bidireccionales, ampliable) */
+const SYN_GROUPS=[
+  ['cpc','coste por clic'],['cpm','coste por mil'],['ctr','click through','porcentaje de clics'],['roas','retorno'],
+  ['aov','ticket medio','valor medio pedido','valor medio del pedido'],
+  ['contracargo','chargeback','contracargos','chargebacks'],['reembolso','devolucion','reembolsos','devoluciones'],
+  ['creativo','creativos','ad','ads','anuncio','anuncios','ugc','video','videos'],['copy','texto','copies'],
+  ['pixel','pixeles'],['coleccion','colecciones'],['testeo','test','testear','testeos','tests'],
+  ['escalar','escalado','escalar campaña','escalada'],['desescalar','desescalado','bajar presupuesto'],
+  ['proveedor','md','mutual dropshipping','proveedores'],['llc','sociedad'],['winner','winners','producto ganador'],
+  ['nicho','nichos'],['branding','marca','branded'],['abo','ad set budget'],['cbo','campaign budget'],
+  ['checkout','pago'],['carrito','cart'],['envio','shipping','envios']
+];
+const SYN={};
+SYN_GROUPS.forEach(g=>{ const ng=g.map(norm); ng.forEach(t=>{ SYN[t]=[...new Set([...(SYN[t]||[]),...ng.filter(x=>x!==t)])]; }); });
+const STOP=new Set(('de la que el en y a los del se las por un para con no una su al lo como mas pero sus le ya o este si porque esta entre cuando muy sin sobre tambien me hasta hay donde quien desde todo nos durante todos uno les ni contra otros ese eso ante ellos e esto mi antes algunos que unos yo otro otras otra el tanto esa estos mucho quienes nada muchos cual poco ella estar estas algunas algo nosotros mis tu te ti tus ellas nosotras vosotros vosotras os mio mia mios mias tuyo tuya tuyos tuyas suyo suya suyos suyas nuestro nuestra nuestros nuestras vuestro vuestra vuestros vuestras esos esas es son ser fue era hace hacer tiene tengo puedo puede debo debe deberia como cual cuales que como cuando donde cuanto cuanta cuantos cuantas cual que tal').split(' '));
+function within1(a,b){ // distancia de edición ≤1
+  if(a===b) return true; const la=a.length, lb=b.length; if(Math.abs(la-lb)>1) return false;
+  let i=0,j=0,ed=0;
+  while(i<la&&j<lb){ if(a[i]===b[j]){i++;j++;continue;} if(++ed>1) return false; if(la>lb) i++; else if(lb>la) j++; else {i++;j++;} }
+  return ed+(la-i)+(lb-j)<=1;
+}
+function stem(t){ if(t.length>5 && t.endsWith('es')) return t.slice(0,-2); if(t.length>4 && t.endsWith('s')) return t.slice(0,-1); return t; }
 function countOcc(hay,needle){let n=0,i=0;while((i=hay.indexOf(needle,i))!==-1){n++;i+=needle.length;if(n>50)break;}return n;}
-/* Búsqueda estricta (todas las palabras) para el buscador de cabecera */
-function queryWords(query){ const all=[...new Set(tokens(query))]; const sig=all.filter(w=>w.length>2); return sig.length?sig:all; } // ignora "de", "el"… si hay palabras con más señal
-function searchSections(query,limit){
-  const words=queryWords(query); if(!words.length) return [];
-  const out=[];
-  for(const sec of SECTIONS){
-    let score=0, ok=true;
-    for(const w of words){
-      const inT=sec.ntitle.includes(w), c=inT?1:countOcc(sec.norm,w);
-      if(!inT && !c){ok=false;break;}
-      score+= (inT?10:0) + Math.min(countOcc(sec.norm,w),6);
-    }
-    if(ok) out.push({sec,score});
-  }
-  out.sort((a,b)=>b.score-a.score);
-  return out.slice(0,limit||40).map(o=>o.sec);
+/* Cada palabra de la query se convierte en un grupo de variantes (propia, raíz, sinónimos, corrección de errata) */
+function queryGroups(query){
+  const all=[...new Set(tokens(query))];
+  let base=all.filter(t=>t.length>2 && !STOP.has(t)); if(!base.length) base=all.filter(t=>t.length>1); if(!base.length) base=all;
+  return base.map(t=>{
+    const v=new Set([t]); const st=stem(t); if(st.length>=4) v.add(st);
+    (SYN[t]||SYN[st]||[]).forEach(x=>v.add(x));
+    if(t.length>=5 && !VOCAB.has(t)){ let n=0; for(const w of VOCAB){ if(within1(t,w)){v.add(w); if(++n>=3) break;} } }
+    return {word:t, toks:[...v]};
+  });
 }
-/* Recuperación laxa (top-K, cualquier palabra, ponderada por rareza) para el asistente */
-const STOP=new Set(('de la que el en y a los del se las por un para con no una su al lo como mas pero sus le ya o este si porque esta entre cuando muy sin sobre tambien me hasta hay donde quien desde todo nos durante todos uno les ni contra otros ese eso ante ellos e esto mi antes algunos que unos yo otro otras otra el tanto esa estos mucho quienes nada muchos cual poco ella estar estas algunas algo nosotros mis tu te ti tus ellas nosotras vosotros vosotras os mio mia mios mias tuyo tuya tuyos tuyas suyo suya suyos suyas nuestro nuestra nuestros nuestras vuestro vuestra vuestros vuestras esos esas es son ser fue era hace hacer tiene tengo puedo puede debo debe deberia como cual cuales que como cuando donde cuanto cuanta cuantos cuantas').split(' '));
-function retrieveSections(question,k){
-  const words=[...new Set(tokens(question))].filter(w=>w.length>2 && !STOP.has(w));
-  if(!words.length) return [];
-  const N=SECTIONS.length, out=[];
-  for(const sec of SECTIONS){
-    let score=0;
-    for(const w of words){
-      const df=DF.get(w); if(!df) continue;
-      const idf=Math.log(1+N/df);
-      score+= idf*((sec.ntitle.includes(w)?3:0) + Math.min(countOcc(sec.norm,w),4));
+function scoreSection(sec,groups,phrase){
+  let score=0, hit=0;
+  for(const g of groups){
+    let best=0;
+    for(const t of g.toks){
+      const inT=countOcc(sec.ntitle,t), inC=countOcc(sec.ncrumb,t), inB=countOcc(sec.norm,t);
+      const sc=8*inT+4*inC+Math.min(inB,10)*sec.lenFactor; if(sc>best) best=sc;
     }
-    if(score>0) out.push({sec,score});
+    if(best>0) hit++; score+=best;
   }
-  out.sort((a,b)=>b.score-a.score);
-  return out.slice(0,k||8).map(o=>o.sec);
+  if(phrase && groups.length>1 && (sec.norm.includes(phrase)||sec.ntitle.includes(phrase))) score+=10; // frase exacta
+  if(hit>=2) score+=hit*3; // cobertura multi-término
+  return {score,hit};
 }
+function rankSections(query,limit){
+  const groups=queryGroups(query); if(!groups.length) return {groups,list:[]};
+  const phrase=norm(query).trim().replace(/\s+/g,' ');
+  const scored=[];
+  for(const sec of SECTIONS){ const r=scoreSection(sec,groups,phrase); if(r.score>0) scored.push({sec,score:r.score,hit:r.hit}); }
+  scored.sort((a,b)=>b.score-a.score||b.hit-a.hit);
+  // si un H1 y una de sus subsecciones coinciden, se queda la subsección (más precisa)
+  const top=scored.slice(0,Math.max(limit*3,24));
+  const crumbs=new Set(top.filter(x=>x.sec.level!=='H1').map(x=>x.sec.doc+'|'+x.sec.crumb));
+  const list=top.filter(x=>!(x.sec.level==='H1'&&crumbs.has(x.sec.doc+'|'+x.sec.title))).slice(0,limit).map(x=>x.sec);
+  return {groups,list};
+}
+function searchSections(query,limit){ return rankSections(query,limit||8).list; }   // buscador de cabecera
+function retrieveSections(question,k){ return rankSections(question,k||8).list; }  // contexto del asistente
 function escHtml(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 function esc(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
-/* resalta palabras (sin acentos) sobre texto original: trabaja con offsets de la versión normalizada */
+/* resalta variantes (sin acentos) sobre texto original: trabaja con offsets de la versión normalizada */
 function hlNorm(text,words){
   const n=norm(text), marks=[];
-  for(const w of words){ let i=0; while((i=n.indexOf(w,i))!==-1){marks.push([i,i+w.length]); i+=w.length;} }
+  for(const w of words){ if(w.length<3) continue; let i=0; while((i=n.indexOf(w,i))!==-1){marks.push([i,i+w.length]); i+=w.length;} }
   if(!marks.length) return escHtml(text);
-  marks.sort((a,b)=>a[0]-b[0]);
+  marks.sort((a,b)=>a[0]-b[0]||b[1]-a[1]);
   let out='',pos=0;
   for(const [a,b] of marks){ if(a<pos) continue; out+=escHtml(text.slice(pos,a))+'<mark>'+escHtml(text.slice(a,b))+'</mark>'; pos=b; }
   return out+escHtml(text.slice(pos));
 }
 function snippet(sec,words){
-  const n=sec.norm; let at=-1;
-  for(const w of words){ const i=n.indexOf(w); if(i!==-1 && (at===-1||i<at)) at=i; }
+  const n=sec.norm; let at=-1, best=0;
+  for(const w of words){ const i=n.indexOf(w); if(i!==-1 && (w.length>best || (w.length===best && i<at))){at=i;best=w.length;} }
   if(at===-1) return sec.text.slice(0,160);
   const start=Math.max(0,at-60), end=Math.min(sec.text.length,at+140);
   return (start>0?'…':'')+sec.text.slice(start,end)+(end<sec.text.length?'…':'');
@@ -1608,12 +1646,13 @@ let hiIdx=-1, curResults=[];
 function runSearch(){
   const term=q.value.trim();
   if(!term){results.classList.remove('open');results.innerHTML='';curResults=[];return;}
-  const words=queryWords(term);
-  curResults=searchSections(term,40);
+  const {groups,list}=rankSections(term,8);
+  const words=[...new Set(groups.flatMap(g=>g.toks))].sort((a,b)=>b.length-a.length);
+  curResults=list;
   const askHint=ASK_ENABLED?'<div class="ask-hint" id="askHint">✦ Preguntar a Claude: «'+escHtml(term)+'»</div>':'';
-  if(!curResults.length){results.innerHTML='<div class="empty">Sin coincidencias en títulos ni texto. Prueba otra palabra clave.</div>'+askHint;results.classList.add('open');bindAskHint(term);return;}
-  results.innerHTML='<div class="cnt">'+curResults.length+(curResults.length===40?'+':'')+' secciones</div>'+
-    curResults.map((r,idx)=>'<div class="r" data-i="'+idx+'"><div class="d">'+escHtml(r.label)+'</div><div class="t">'+hlNorm(r.title,words)+'</div><div class="s">'+hlNorm(snippet(r,words),words)+'</div></div>').join('');
+  if(!curResults.length){results.innerHTML='<div class="empty">Sin resultados para «'+escHtml(term)+'». Prueba: contracargos, escalado, creativos, colecciones…</div>'+askHint;results.classList.add('open');bindAskHint(term);return;}
+  results.innerHTML='<div class="cnt">'+curResults.length+' secciones relevantes · '+DOCS.length+' documentos</div>'+
+    curResults.map((r,idx)=>'<div class="r" data-i="'+idx+'"><div class="d">'+escHtml(r.label)+(r.crumb?' › '+escHtml(r.crumb):'')+'</div><div class="t">'+hlNorm(r.title,words)+'</div><div class="s">'+hlNorm(snippet(r,words),words)+'</div></div>').join('');
   results.innerHTML+=askHint;
   results.classList.add('open'); hiIdx=-1;
   results.querySelectorAll('.r').forEach(r=>r.onclick=()=>go(curResults[+r.dataset.i]));
@@ -1621,9 +1660,9 @@ function runSearch(){
 }
 function bindAskHint(term){ const h=document.getElementById('askHint'); if(h) h.onclick=()=>{results.classList.remove('open');q.value='';curResults=[];openAsk(term,true);}; }
 function go(r){results.classList.remove('open');q.value='';curResults=[];selectDoc(r.doc,r.id.split('--')[1]);}
-q.placeholder='Buscar en los '+DOCS.length+' documentos…';
+q.placeholder='Busca un tema o una duda…';
 q.addEventListener('input',runSearch);
-q.addEventListener('focus',()=>{if(q.value.trim()&&curResults.length)results.classList.add('open');});
+q.addEventListener('focus',()=>{closeSidebar();if(q.value.trim()&&curResults.length)results.classList.add('open');}); // enfocar el buscador cierra el menú
 q.addEventListener('keydown',e=>{
   if(e.key==='Escape'){results.classList.remove('open');q.blur();return;}
   if(!curResults.length)return;
@@ -1798,7 +1837,7 @@ themeBtn.onclick=()=>{
 };
 
 /* ---------- mobile sidebar ---------- */
-function openSidebar(){sidebar.classList.add('open');scrim.classList.add('open');}
+function openSidebar(){results.classList.remove('open');sidebar.classList.add('open');scrim.classList.add('open');} // abrir el menú cierra los resultados
 function closeSidebar(){sidebar.classList.remove('open');scrim.classList.remove('open');}
 el('#menuBtn').onclick=()=>sidebar.classList.contains('open')?closeSidebar():openSidebar();
 scrim.onclick=closeSidebar;
