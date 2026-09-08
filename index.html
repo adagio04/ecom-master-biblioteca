@@ -1360,6 +1360,20 @@ let start='mentoria';
 try{const s=localStorage.getItem('bib-doc'); if(s&&DOCS.some(d=>d.key===s))start=s;}catch(e){}
 if(location.hash){const k=location.hash.slice(1).split('--')[0]; if(DOCS.some(d=>d.key===k))start=k;}
 selectDoc(start, location.hash?location.hash.slice(1).split('--')[1]:null);
+
+/* ---------- retirada del service worker antiguo ----------
+   Versiones anteriores de esta pagina eran una PWA y registraban un SW
+   cache-first que podia servir HTML obsoleto. Aqui no se registra ninguno:
+   se desregistra cualquier resto y se vacian sus cachas, una sola vez. */
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.getRegistrations().then(regs=>{
+    if(!regs.length) return;
+    Promise.all(regs.map(r=>r.unregister()))
+      .then(()=>("caches" in window) ? caches.keys().then(ks=>Promise.all(ks.map(k=>caches.delete(k)))) : null)
+      .then(()=>{ if(!sessionStorage.getItem('sw-purgado')){ sessionStorage.setItem('sw-purgado','1'); location.reload(); } })
+      .catch(()=>{});
+  }).catch(()=>{});
+}
 </script>
 </body>
 </html>
