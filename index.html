@@ -25,6 +25,7 @@
   --warn:#e6b660; --warn-bg:#2a2418;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:var(--accent-ink);text-decoration:none}
@@ -1314,6 +1315,7 @@ mark{background:var(--accent-soft);color:var(--accent-ink);padding:0 2px;border-
 
 <script>
 /* ===== Asistente "Preguntar" (BYOK) — configuración editable ===== */
+const ASK_ENABLED = false;          // false = asistente dormido: oculta el botón de cabecera y el atajo del buscador. Pon true para reactivarlo.
 const ASK_MODEL_DEFAULT = 'claude-haiku-4-5';   // modelo por defecto: pequeño y rápido. Se puede cambiar aquí o desde ⚙️.
 const ASK_MODELS = [
   {id:'claude-haiku-4-5', label:'Haiku 4.5 · rápido y barato'},
@@ -1608,7 +1610,7 @@ function runSearch(){
   if(!term){results.classList.remove('open');results.innerHTML='';curResults=[];return;}
   const words=queryWords(term);
   curResults=searchSections(term,40);
-  const askHint='<div class="ask-hint" id="askHint">✦ Preguntar a Claude: «'+escHtml(term)+'»</div>';
+  const askHint=ASK_ENABLED?'<div class="ask-hint" id="askHint">✦ Preguntar a Claude: «'+escHtml(term)+'»</div>':'';
   if(!curResults.length){results.innerHTML='<div class="empty">Sin coincidencias en títulos ni texto. Prueba otra palabra clave.</div>'+askHint;results.classList.add('open');bindAskHint(term);return;}
   results.innerHTML='<div class="cnt">'+curResults.length+(curResults.length===40?'+':'')+' secciones</div>'+
     curResults.map((r,idx)=>'<div class="r" data-i="'+idx+'"><div class="d">'+escHtml(r.label)+'</div><div class="t">'+hlNorm(r.title,words)+'</div><div class="s">'+hlNorm(snippet(r,words),words)+'</div></div>').join('');
@@ -1674,6 +1676,7 @@ function openAsk(prefill,autoFocus){
 }
 function closeAsk(){ ask.hidden=true; askScrim.classList.remove('open'); if(askAbort){askAbort.abort();askAbort=null;} }
 el('#askBtn').onclick=()=>ask.hidden?openAsk(null,true):closeAsk();
+if(!ASK_ENABLED){ el('#askBtn').hidden=true; } // dormido: sin accesos visibles (el panel y la lógica quedan intactos)
 el('#askClose').onclick=closeAsk; askScrim.onclick=closeAsk;
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!ask.hidden) closeAsk(); });
 askQ.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();el('#askForm').requestSubmit();} });
